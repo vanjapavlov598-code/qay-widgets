@@ -121,6 +121,19 @@
 
 </div>
 <script>
+// postMessage → Velo для SEO индексации
+window.addEventListener('load', function() {
+  var seoData = {
+    type: 'qay-seo',
+    widget: 'hero',
+    h1: document.querySelector('h1') ? document.querySelector('h1').textContent : '',
+    h2: [],
+    paragraphs: Array.from(document.querySelectorAll('p')).map(function(p){ return p.textContent; }).join(' '),
+    fullText: document.body.innerText
+  };
+  window.parent.postMessage(seoData, '*');
+});
+
 var slides=[
   'https://static.wixstatic.com/media/9478fb_d13a9d3d10c040ce96bbd0d9eb7b23d5~mv2.jpg',
   'https://static.wixstatic.com/media/9478fb_86de4c95811d4847838015fad0f17713~mv2.jpg'
