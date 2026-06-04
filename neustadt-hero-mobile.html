@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>QaY Hero</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+
+.hero{
+  position:relative;
+  width:100%;height:100vh;
+  min-height:560px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  overflow:hidden;
+}
+
+/* Slideshow */
+.slide{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  opacity:0;transition:opacity 1.2s ease;
+}
+.slide.active{opacity:1}
+.overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(27,48,64,.35) 0%,rgba(27,48,64,.72) 100%)}
+
+/* Content */
+.content{
+  position:relative;z-index:2;
+  text-align:center;padding:0 28px;width:100%;
+  -webkit-font-smoothing:antialiased;
+}
+.eyebrow{
+  font-family:'Inter',sans-serif;font-size:10px;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:#B5A07A;font-weight:500;display:block;margin-bottom:16px;
+  opacity:0;animation:up .8s .2s forwards;
+}
+h1{
+  font-family:'Cormorant Garamond',serif;font-size:46px;
+  font-weight:300;line-height:1.05;color:#fff;margin-bottom:18px;
+  opacity:0;animation:up .8s .4s forwards;
+}
+h1 em{font-style:italic;color:#B5A07A}
+.sub{
+  font-family:'Inter',sans-serif;font-size:13.5px;font-weight:300;
+  color:rgba(255,255,255,.78);line-height:1.65;
+  max-width:290px;margin:0 auto 32px;
+  opacity:0;animation:up .8s .6s forwards;
+}
+.btns{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  opacity:0;animation:up .8s .8s forwards;
+}
+.btn-gold{
+  width:240px;padding:15px;
+  background:#B5A07A;color:#fff;
+  font-family:'Inter',sans-serif;font-size:11px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;
+  text-decoration:none;text-align:center;display:block;
+}
+.btn-ghost{
+  width:240px;padding:14px;
+  background:transparent;color:#fff;
+  font-family:'Inter',sans-serif;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;
+  text-decoration:none;text-align:center;display:block;
+  border:1px solid rgba(255,255,255,.45);
+}
+
+/* Scroll hint */
+.scroll{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeIn 1s 1.2s forwards;
+}
+.scroll span{font-family:'Inter',sans-serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.line{width:1px;height:36px;background:linear-gradient(180deg,rgba(255,255,255,.45),transparent);animation:pulse 2s infinite}
+
+/* Dots */
+.dots{
+  position:absolute;bottom:28px;right:20px;
+  display:flex;flex-direction:column;gap:5px;z-index:2;
+  opacity:0;animation:fadeIn 1s 1.5s forwards;
+}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);transition:background .3s,transform .3s}
+.dot.active{background:#B5A07A;transform:scale(1.4)}
+
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+</style>
+</head>
+<body>
+<div class="hero">
+
+  <div class="slide active" id="s0" style="background-image:url('https://static.wixstatic.com/media/9478fb_d13a9d3d10c040ce96bbd0d9eb7b23d5~mv2.jpg')"></div>
+  <div class="slide" id="s1" style="background-image:url('https://static.wixstatic.com/media/9478fb_86de4c95811d4847838015fad0f17713~mv2.jpg')"></div>
+  <div class="slide" id="s2" style="background-image:url('https://static.wixstatic.com/media/9478fb_96e3f6db0bb4403887ba5cae2e98f4dd~mv2.jpg')"></div>
+  <div class="overlay"></div>
+
+  <div class="content">
+    <span class="eyebrow">Neustadt in Holstein · Lübecker Bucht</span>
+    <h1>Ihr Platz am<br><em>Yachthafen.</em></h1>
+    <p class="sub">Ferienwohnung als Kapitalanlage oder Eigentumswohnung — direkt am Wasser.</p>
+    <div class="btns">
+      <a href="#" class="btn-gold">Als Kapitalanlage</a>
+      <a href="#" class="btn-ghost">Zum Eigennutz</a>
+    </div>
+  </div>
+
+  <div class="scroll">
+    <span>Entdecken</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="dots">
+    <div class="dot active" id="d0"></div>
+    <div class="dot" id="d1"></div>
+    <div class="dot" id="d2"></div>
+  </div>
+
+</div>
+<script>
+var slides=document.querySelectorAll('.slide');
+var dots=document.querySelectorAll('.dot');
+var cur=0,n=slides.length;
+setInterval(function(){
+  slides[cur].classList.remove('active');
+  dots[cur].classList.remove('active');
+  cur=(cur+1)%n;
+  slides[cur].classList.add('active');
+  dots[cur].classList.add('active');
+},5000);
+</script>
+</body>
+</html>
