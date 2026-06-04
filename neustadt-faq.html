@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY FAQ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff;overflow-x:hidden}
+
+.sec{background:#fff;padding:80px 0;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+.inner{display:table;width:100%;max-width:900px;margin:0 auto;padding:0 40px}
+
+/* Header */
+.head{text-align:center;margin-bottom:56px}
+.eyebrow{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#B5A07A;font-weight:500;display:block;margin-bottom:14px}
+.h2{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:400;color:#1B3040;line-height:1.1;display:block}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid #E2DDD6}
+.faq-item:first-child{border-top:1px solid #E2DDD6}
+
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 0;cursor:pointer;gap:20px;
+  font-family:'Inter',sans-serif;font-size:15px;font-weight:400;
+  color:#1B3040;line-height:1.4;
+  user-select:none;
+  transition:color .2s;
+}
+.faq-q:hover{color:#B5A07A}
+
+/* Plus/Minus icon */
+.faq-icon{
+  flex-shrink:0;width:22px;height:22px;position:relative;
+}
+.faq-icon::before,.faq-icon::after{
+  content:'';position:absolute;background:#B5A07A;
+  transition:transform .3s ease, opacity .3s ease;
+}
+.faq-icon::before{width:14px;height:1px;top:50%;left:50%;transform:translate(-50%,-50%)}
+.faq-icon::after{height:14px;width:1px;top:50%;left:50%;transform:translate(-50%,-50%)}
+.faq-item.open .faq-icon::after{transform:translate(-50%,-50%) rotate(90deg);opacity:0}
+
+/* Answer */
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease, padding .3s ease;
+}
+.faq-item.open .faq-a{max-height:400px;padding-bottom:22px}
+.faq-a p{
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:300;
+  color:#6B6B6B;line-height:1.75;
+}
+.faq-a a{color:#B5A07A;text-decoration:none}
+.faq-a a:hover{text-decoration:underline}
+
+/* Mobile */
+@media(max-width:680px){
+  .sec{padding:52px 0}
+  .inner{padding:0 20px}
+  .h2{font-size:32px}
+  .faq-q{font-size:14px;padding:18px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="sec">
+  <div class="inner">
+
+    <div class="head">
+      <span class="eyebrow">Häufige Fragen</span>
+      <span class="h2">Was Sie wissen möchten.</span>
+    </div>
+
+    <div class="faq-item open">
+      <div class="faq-q" onclick="toggle(this)">
+        Ab wann ist das Quartier am Yachthafen bezugsfertig?
+        <div class="faq-icon"></div>
+      </div>
+      <div class="faq-a"><p>Die Fertigstellung ist für Q4 2028 geplant. Das Projekt wird in zwei Baufeldern (BF1 und BF2) realisiert. Aktuelle Baufortschrittsfotos und genaue Termine erhalten Sie in Ihrem persönlichen Exposé.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)">
+        Welche Ferienwohnungen gibt es im Quartier am Yachthafen?
+        <div class="faq-icon"></div>
+      </div>
+      <div class="faq-a"><p>Es stehen 47 vollmöblierte Ferienwohnungen zur Verfügung — ab 348.800 €. Die Apartments in den Gebäuden Victory, Santa Maria und Mayflower sind löffelfertig eingerichtet und werden professionell durch RELAMARE verwaltet. Alle Einheiten erfüllen den KfW40-Standard mit Fernwärme.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)">
+        Kann ich eine Wohnung als Erstwohnsitz kaufen?
+        <div class="faq-icon"></div>
+      </div>
+      <div class="faq-a"><p>Ja. Im Quartier am Yachthafen gibt es 55 Eigentumswohnungen — ausschließlich als Erstwohnsitz — ab 289.900 €. Zweitwohnsitz oder Ferienvermietung sind in diesem Bereich gesetzlich nicht gestattet. Das schützt die Wohnqualität des Quartiers nachhaltig.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)">
+        Wie hoch ist die Rendite bei einer Ferienwohnung?
+        <div class="faq-icon"></div>
+      </div>
+      <div class="faq-a"><p>Die prognostizierte Rendite beträgt ab 5 % p.a. bei professioneller Ferienvermietung durch RELAMARE. Zusätzlich profitieren Kapitalanleger von steuerlichen Vorteilen durch die Abschreibung (AfA) der Möblierung sowie der Immobilie selbst.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)">
+        Gibt es KfW-Förderung für den Kauf?
+        <div class="faq-icon"></div>
+      </div>
+      <div class="faq-a"><p>Alle 102 Einheiten erfüllen den KfW40-Energiestandard. Für die Eigentumswohnungen in Baufeld 2 (Holzbauweise) ist zusätzlich KfW-Förderung beantragbar — das senkt die Finanzierungskosten spürbar. Ihr CH2-Berater informiert Sie zu den aktuellen Förderprogrammen.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)">
+        Wer ist der Bauträger?
+        <div class="faq-icon"></div>
+      </div>
+      <div class="faq-a"><p>Bauherr ist die VENTIS Zweite Projektgesellschaft Neustadt Marina mbH, ein Unternehmen der VENTIS Immobilien AG — einem der erfahrensten Bauträger Norddeutschlands mit über 500 realisierten Projekten seit 1993. Der Vertrieb erfolgt exklusiv durch CH2 AG, Hamburg.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggle(this)">
+        Wer verwaltet die Ferienwohnungen?
+        <div class="faq-icon"></div>
+      </div>
+      <div class="faq-a"><p>Die professionelle Ferienvermietung und Verwaltung übernimmt RELAMARE — ein auf Ferienimmobilien spezialisierter Dienstleister. Als Eigentümer erhalten Sie die Rendite ohne eigenen Aufwand: von der Gästebuchung über die Reinigung bis zur Instandhaltung ist alles inklusive.</p></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggle(el){
+  var item=el.closest('.faq-item');
+  var isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(i){i.classList.remove('open');});
+  if(!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
