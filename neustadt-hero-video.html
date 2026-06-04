@@ -74,28 +74,28 @@ h1{
 
 /* Buttons */
 .btns{
-  display:flex;gap:16px;justify-content:center;
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
   opacity:0;animation:up .8s .9s forwards;
 }
 .btn-light{
-  padding:16px 40px;
-  margin-right:14px;
-  background:rgba(255,255,255,.92);color:#1B3040;
+  padding:15px 32px;
+  background:#fff;color:#1B3040;
   font-family:'Inter',sans-serif;font-size:12px;font-weight:500;
   letter-spacing:.14em;text-transform:uppercase;
   text-decoration:none;
-  transition:background .2s;
+  transition:background .2s,color .2s;
 }
-.btn-light:hover{background:#fff}
+.btn-light:hover{background:#B5A07A;color:#fff}
 .btn-dark{
-  padding:16px 40px;
-  background:#1B3040;color:#fff;
-  font-family:'Inter',sans-serif;font-size:12px;font-weight:500;
+  padding:14px 32px;
+  background:transparent;color:#fff;
+  font-family:'Inter',sans-serif;font-size:12px;
   letter-spacing:.14em;text-transform:uppercase;
   text-decoration:none;
-  transition:background .2s;
+  border:1px solid rgba(255,255,255,.55);
+  transition:border-color .2s,background .2s;
 }
-.btn-dark:hover{background:#243D52}
+.btn-dark:hover{border-color:#fff;background:rgba(255,255,255,.1)}
 
 /* Scroll indicator */
 .scroll-hint{
