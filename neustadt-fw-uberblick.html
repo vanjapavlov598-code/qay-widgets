@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY Ferienwohnungen Überblick</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff;overflow-x:hidden}
+
+.sec{background:#fff;padding:80px 0;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+.inner{display:table;width:100%;max-width:1080px;margin:0 auto;padding:0 40px}
+
+/* Header */
+.head{text-align:center;margin-bottom:56px}
+.eyebrow{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#B5A07A;font-weight:500;display:block;margin-bottom:14px}
+.h2{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:400;color:#1B3040;line-height:1.1;margin-bottom:16px;display:block}
+.sub{font-family:'Inter',sans-serif;font-size:15px;color:#6B6B6B;font-weight:300;line-height:1.65;max-width:560px;margin:0 auto;display:block}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);background:#E2DDD6;gap:1px}
+
+/* Card */
+.card{background:#fff;padding:0 0 32px;display:flex;flex-direction:column}
+.card-img{width:100%;aspect-ratio:4/3;overflow:hidden;background:#F7F5F1}
+.card-img img{width:100%;height:100%;object-fit:contain;display:block}
+.card-body{padding:24px 28px 0;flex:1;display:flex;flex-direction:column}
+.card-type{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B5A07A;font-weight:500;display:block;margin-bottom:8px}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;color:#1B3040;line-height:1.15;display:block;margin-bottom:6px}
+.card-price{font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:#1B3040;display:block;margin-bottom:20px}
+
+/* Attrs */
+.attrs{list-style:none;margin:0;padding:0}
+.attrs li{font-family:'Inter',sans-serif;font-size:13px;color:#6B6B6B;font-weight:300;padding:8px 0;border-bottom:1px solid #E2DDD6;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.attrs li:last-child{border-bottom:none}
+.attrs li b{color:#2A2A2A;font-weight:500;text-align:right;flex-shrink:1;min-width:0;word-break:break-word;max-width:58%}
+
+/* Mobile */
+@media(max-width:760px){
+  .sec{padding:52px 0}
+  .inner{padding:0 20px}
+  .h2{font-size:30px}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="sec">
+  <div class="inner">
+
+    <div class="head">
+      <span class="eyebrow">Ferienwohnungen als Kapitalanlage</span>
+      <span class="h2">Die Apartments im Überblick</span>
+      <span class="sub">Drei Wohngebäude — alle vollmöbliert, KfW40, Fernwärme. Professionelle Verwaltung durch RELAMARE ab dem ersten Tag.</span>
+    </div>
+
+    <div class="grid">
+
+      <!-- Victory -->
+      <div class="card">
+        <div class="card-img">
+          <img src="https://static.wixstatic.com/media/09cf10_048009f7a17d4f1284e7ca809a5740c7~mv2.webp" alt="Grundriss Victory">
+        </div>
+        <div class="card-body">
+          <span class="card-type">Ferienwohnung</span>
+          <span class="card-name">Victory</span>
+          <span class="card-price">ab 348.800 €</span>
+          <ul class="attrs">
+            <li>Wohnfläche <b>ca. 47 m²</b></li>
+            <li>Zimmer <b>2 Zimmer · 1 Bad</b></li>
+            <li>Terrasse / Balkon <b>Loggia / Balkon</b></li>
+            <li>Besonderheit <b>Yachthafenblick</b></li>
+            <li>Energiestandard <b>KfW40</b></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Santa Maria -->
+      <div class="card">
+        <div class="card-img">
+          <img src="https://static.wixstatic.com/media/09cf10_fd977f3c0f4042aa8e09ab76a25006ec~mv2.webp" alt="Grundriss Santa Maria">
+        </div>
+        <div class="card-body">
+          <span class="card-type">Ferienwohnung</span>
+          <span class="card-name">Santa Maria</span>
+          <span class="card-price">ab 368.000 €</span>
+          <ul class="attrs">
+            <li>Wohnfläche <b>ca. 84 m²</b></li>
+            <li>Zimmer <b>3 Zimmer · 1 Bad + WC</b></li>
+            <li>Terrasse / Balkon <b>Verglaste Terrasse (EG)</b></li>
+            <li>Besonderheit <b>Barrierefreier EG-Zugang</b></li>
+            <li>Energiestandard <b>KfW40</b></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Mayflower -->
+      <div class="card">
+        <div class="card-img">
+          <img src="https://static.wixstatic.com/media/09cf10_b679dd2d144444b2b4c937cc1d12654f~mv2.webp" alt="Grundriss Mayflower">
+        </div>
+        <div class="card-body">
+          <span class="card-type">Ferienwohnung</span>
+          <span class="card-name">Mayflower</span>
+          <span class="card-price">ab 389.000 €</span>
+          <ul class="attrs">
+            <li>Wohnfläche <b>ca. 47 m²</b></li>
+            <li>Zimmer <b>2 Zimmer · 1 Bad</b></li>
+            <li>Terrasse / Balkon <b>Balkon</b></li>
+            <li>Besonderheit <b>Vollmöbliert ab Tag 1</b></li>
+            <li>Energiestandard <b>KfW40</b></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
