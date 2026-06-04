@@ -1,45 +1,55 @@
-/**
- * QaY Widget Loader — Custom Element
- * Загружает HTML с GitHub Pages и вставляет в DOM страницы
- * Google читает контент как часть основной страницы
- *
- * Использование в Wix Custom Element:
- * <qay-widget src="https://vanjapavlov598-code.github.io/qay-widgets/neustadt-hero-dom.html"></qay-widget>
- */
 class QayWidget extends HTMLElement {
-  async connectedCallback() {
-    const url = this.getAttribute('src');
-    if (!url) return;
 
+  static get observedAttributes() { return ['src']; }
+
+  attributeChangedCallback(name, oldVal, newVal) {
+    if (name === 'src' && newVal && newVal !== oldVal) {
+      this.load(newVal);
+    }
+  }
+
+  connectedCallback() {
+    const url = this.getAttribute('src');
+    if (url) this.load(url);
+  }
+
+  async load(url) {
     try {
       const resp = await fetch(url, { cache: 'no-cache' });
       const html = await resp.text();
       const doc = new DOMParser().parseFromString(html, 'text/html');
 
-      // Загружаем Google Fonts если есть
+      // Google Fonts
       doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
         if (!document.querySelector(`link[href="${link.href}"]`)) {
           document.head.appendChild(link.cloneNode(true));
         }
       });
 
-      // Инжектируем стили с фильтрацией html/body правил
+      // CSS — заменяем html/body на [data-qay]
       doc.querySelectorAll('style').forEach(style => {
-        const scoped = document.createElement('style');
-        scoped.textContent = style.textContent
+        const s = document.createElement('style');
+        s.textContent = style.textContent
           .replace(/\bhtml\b/g, '[data-qay]')
           .replace(/\bbody\b/g, '[data-qay]');
-        this.appendChild(scoped);
+        this.appendChild(s);
       });
 
-      // Вставляем тело в Light DOM (не Shadow DOM — Google читает)
+      // Контент в Light DOM
       const wrapper = document.createElement('div');
       wrapper.setAttribute('data-qay', '');
       wrapper.innerHTML = doc.body.innerHTML;
       this.appendChild(wrapper);
 
-    } catch (e) {
-      console.warn('QaY Widget load error:', e);
+      // Запускаем скрипты
+      wrapper.querySelectorAll('script').forEach(old => {
+        const s = document.createElement('script');
+        s.textContent = old.textContent;
+        old.replaceWith(s);
+      });
+
+    } catch(e) {
+      console.warn('QaY loader error:', e);
     }
   }
 }
