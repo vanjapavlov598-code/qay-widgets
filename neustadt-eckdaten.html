@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY Eckdaten</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;overflow-x:hidden;background:#fff}
+
+.wrap{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid #E2DDD6;
+  border-bottom:1px solid #E2DDD6;
+  background:#fff;
+  font-family:'Inter',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+.item{
+  padding:44px 32px;
+  text-align:center;
+  border-right:1px solid #E2DDD6;
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.item:last-child{border-right:none}
+.item.visible{opacity:1;transform:none}
+
+/* Stagger delays */
+.item:nth-child(1){transition-delay:.0s}
+.item:nth-child(2){transition-delay:.12s}
+.item:nth-child(3){transition-delay:.24s}
+.item:nth-child(4){transition-delay:.36s}
+
+.val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:50px;font-weight:300;
+  color:#B5A07A;line-height:1;
+  display:block;margin-bottom:12px;
+}
+.lbl{
+  font-family:'Inter',sans-serif;
+  font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:#6B6B6B;
+  font-weight:300;
+}
+
+@media(max-width:680px){
+  .wrap{grid-template-columns:repeat(2,1fr)}
+  .item{padding:28px 16px;border-bottom:1px solid #E2DDD6}
+  .item:nth-child(3),.item:nth-child(4){border-bottom:none}
+  .item:nth-child(2),.item:nth-child(4){border-right:none}
+  .val{font-size:38px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="wrap">
+  <div class="item">
+    <span class="val" id="v1">0</span>
+    <span class="lbl">Einheiten gesamt</span>
+  </div>
+  <div class="item">
+    <span class="val" id="v2">0</span>
+    <span class="lbl">Gebäude</span>
+  </div>
+  <div class="item">
+    <span class="val" id="v3">ab 5 %</span>
+    <span class="lbl">Rendite p.a. (progn.)</span>
+  </div>
+  <div class="item">
+    <span class="val" id="v4">Q4 2028</span>
+    <span class="lbl">Fertigstellung</span>
+  </div>
+</div>
+
+<script>
+var animated = false;
+
+function countUp(el, target, duration) {
+  var start = 0, startTime = null;
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    var progress = Math.min((ts - startTime) / duration, 1);
+    // easeOutQuart
+    var ease = 1 - Math.pow(1 - progress, 4);
+    el.textContent = Math.round(ease * target);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(step);
+}
+
+function animate() {
+  if (animated) return;
+  animated = true;
+
+  var items = document.querySelectorAll('.item');
+  items.forEach(function(item) {
+    item.classList.add('visible');
+  });
+
+  // Delay counters to match fade-in
+  setTimeout(function() { countUp(document.getElementById('v1'), 102, 1400); }, 200);
+  setTimeout(function() { countUp(document.getElementById('v2'), 12,  1200); }, 380);
+}
+
+// Trigger on scroll into view
+var obs = new IntersectionObserver(function(entries) {
+  if (entries[0].isIntersecting) animate();
+}, { threshold: 0.4 });
+obs.observe(document.getElementById('wrap'));
+</script>
+</body>
+</html>
