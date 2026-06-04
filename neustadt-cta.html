@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY CTA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow-x:hidden;background:#1B3040}
+
+.split{display:flex;width:100%;height:100vh;min-height:560px}
+
+/* Tile */
+.tile{
+  flex:1;position:relative;overflow:hidden;cursor:pointer;
+  display:flex;align-items:flex-end;
+}
+.tile-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  transition:transform .8s cubic-bezier(.4,0,.2,1);
+}
+.tile:hover .tile-bg{transform:scale(1.06)}
+
+/* Gradient overlay — bottom heavy */
+.tile-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    180deg,
+    rgba(18,35,47,0) 0%,
+    rgba(18,35,47,.25) 40%,
+    rgba(18,35,47,.82) 100%
+  );
+  transition:background .4s ease;
+}
+.tile:hover .tile-overlay{
+  background:linear-gradient(
+    180deg,
+    rgba(18,35,47,.1) 0%,
+    rgba(18,35,47,.35) 40%,
+    rgba(18,35,47,.9) 100%
+  );
+}
+
+/* Divider */
+.tile:first-child::after{
+  content:'';position:absolute;top:10%;bottom:10%;right:0;
+  width:1px;background:rgba(255,255,255,.2);z-index:3;
+}
+
+/* Content */
+.tile-body{
+  position:relative;z-index:2;
+  padding:40px 40px 52px;
+  width:100%;
+}
+.tile-eyebrow{
+  font-family:'Inter',sans-serif;font-size:10px;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:#B5A07A;font-weight:500;display:block;margin-bottom:12px;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s .1s, transform .5s .1s;
+}
+.tile-h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;font-weight:300;color:#fff;line-height:1.1;
+  margin-bottom:12px;display:block;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .5s .2s, transform .5s .2s;
+}
+.tile-p{
+  font-family:'Inter',sans-serif;font-size:13px;
+  font-weight:300;color:rgba(255,255,255,.72);
+  line-height:1.65;margin-bottom:28px;
+  max-width:320px;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .5s .3s, transform .5s .3s;
+}
+.tile-btn{
+  display:inline-block;
+  font-family:'Inter',sans-serif;font-size:11px;
+  font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;padding:14px 28px;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s .4s, transform .5s .4s;
+}
+.tile-btn.gold{background:#B5A07A;color:#fff}
+.tile-btn.ghost{color:#fff;border:1px solid rgba(255,255,255,.55)}
+.tile-btn.gold:hover{opacity:.88}
+.tile-btn.ghost:hover{background:rgba(255,255,255,.1);border-color:#fff}
+
+/* Animate in on load */
+.tile-eyebrow,.tile-h2,.tile-p,.tile-btn{
+  opacity:0;
+}
+.loaded .tile-eyebrow,
+.loaded .tile-h2,
+.loaded .tile-p,
+.loaded .tile-btn{
+  opacity:1;transform:none;
+}
+
+/* Arrow top-right */
+.tile-arrow{
+  position:absolute;top:32px;right:32px;z-index:3;
+  width:40px;height:40px;border:1px solid rgba(255,255,255,.35);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  transition:border-color .3s,transform .3s;
+}
+.tile:hover .tile-arrow{border-color:rgba(255,255,255,.8);transform:rotate(45deg)}
+.tile-arrow svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:1.5}
+
+/* Mobile */
+@media(max-width:680px){
+  .split{flex-direction:column;height:auto}
+  .tile{min-height:480px;align-items:flex-end}
+  .tile:first-child::after{display:none}
+  .tile-body{padding:28px 24px 40px}
+  .tile-h2{font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<div class="split" id="split">
+
+  <!-- FW — Kapitalanlage -->
+  <div class="tile">
+    <div class="tile-bg" style="background-image:url('https://static.wixstatic.com/media/09cf10_ebd266e17ce44d79b7cab34db0e02917~mv2.webp')"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-arrow">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+    </div>
+    <div class="tile-body">
+      <span class="tile-eyebrow">Ferienwohnung als Kapitalanlage</span>
+      <span class="tile-h2">Kaufen. Vermieten.<br>Entspannen.</span>
+      <p class="tile-p">47 vollmöblierte Apartments ab 348.800 € — Rendite ab 5 % p.a., RELAMARE-Verwaltung inklusive. Fordern Sie Ihr persönliches Exposé an.</p>
+      <a href="#" class="tile-btn gold">Exposé Kapitalanlage</a>
+    </div>
+  </div>
+
+  <!-- ETW — Eigennutz -->
+  <div class="tile">
+    <div class="tile-bg" style="background-image:url('https://static.wixstatic.com/media/09cf10_818157f2be11492cab5c7e975e0f62a9~mv2.webp')"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-arrow">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
+    </div>
+    <div class="tile-body">
+      <span class="tile-eyebrow">Eigentumswohnung · Erstwohnsitz</span>
+      <span class="tile-h2">Endlich zu Hause —<br>direkt am Wasser.</span>
+      <p class="tile-p">55 Wohneinheiten in nachhaltiger Holzbauweise ab 289.900 € — ausschließlich Erstwohnsitz. KfW-Förderung beantragbar.</p>
+      <a href="#" class="tile-btn ghost">Exposé Eigentumswohnung</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+window.addEventListener('load',function(){
+  setTimeout(function(){
+    document.getElementById('split').classList.add('loaded');
+  },200);
+});
+</script>
+</body>
+</html>
