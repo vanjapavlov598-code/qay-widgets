@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY Hero Video</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#1B3040}
+
+.hero{
+  position:relative;width:100%;height:100vh;
+  min-height:600px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+
+/* Video */
+video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+}
+
+/* Overlay */
+.overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    180deg,
+    rgba(18,35,47,.15) 0%,
+    rgba(18,35,47,.25) 50%,
+    rgba(18,35,47,.55) 100%
+  );
+}
+
+/* Content */
+.content{
+  position:relative;z-index:2;
+  text-align:center;
+  padding:0 40px;
+  max-width:900px;
+  width:100%;
+  -webkit-font-smoothing:antialiased;
+}
+
+.eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.85);font-weight:400;
+  display:block;margin-bottom:20px;
+  opacity:0;animation:up .8s .3s forwards;
+}
+
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(52px, 7vw, 96px);
+  font-weight:300;line-height:1;
+  color:#fff;letter-spacing:.04em;text-transform:uppercase;
+  margin-bottom:24px;
+  opacity:0;animation:up .9s .5s forwards;
+}
+
+.sub{
+  font-family:'Inter',sans-serif;
+  font-size:14px;font-weight:300;
+  color:rgba(255,255,255,.72);
+  line-height:1.65;max-width:480px;
+  margin:0 auto 40px;
+  opacity:0;animation:up .8s .7s forwards;
+}
+
+/* Buttons */
+.btns{
+  display:flex;gap:0;justify-content:center;
+  opacity:0;animation:up .8s .9s forwards;
+}
+.btn-light{
+  padding:16px 40px;
+  background:rgba(255,255,255,.92);color:#1B3040;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;
+  transition:background .2s;
+}
+.btn-light:hover{background:#fff}
+.btn-dark{
+  padding:16px 40px;
+  background:#1B3040;color:#fff;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;
+  transition:background .2s;
+}
+.btn-dark:hover{background:#243D52}
+
+/* Scroll indicator */
+.scroll-hint{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeIn 1s 1.2s forwards;z-index:2;
+}
+.scroll-hint span{
+  font-family:'Inter',sans-serif;font-size:9px;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+.scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(180deg,rgba(255,255,255,.45),transparent);
+  animation:pulse 2s infinite;
+}
+
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:.9}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+
+  <video autoplay muted loop playsinline preload="auto">
+    <source src="https://video.wixstatic.com/video/09cf10_e732aa9ce68c4c35866fd3812bb93b9f/1080p/mp4/file.mp4" type="video/mp4">
+  </video>
+
+  <div class="overlay"></div>
+
+  <div class="content">
+    <span class="eyebrow">Neustadt in Holstein — Lübecker Bucht</span>
+    <h1>Quartier am<br>Yachthafen</h1>
+    <p class="sub">Ferienwohnung als Kapitalanlage oder Eigentumswohnung zum Eigennutz — direkt am größten Yachthafen der Lübecker Bucht. 102 Einheiten. Fertigstellung Q4 2028.</p>
+    <div class="btns">
+      <a href="#" class="btn-light">Als Kapitalanlage</a>
+      <a href="#" class="btn-dark">Zum Eigennutz</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Entdecken</span>
+    <div class="scroll-line"></div>
+  </div>
+
+</div>
+
+</body>
+</html>
