@@ -3,9 +3,7 @@ class QayWidget extends HTMLElement {
   static get observedAttributes() { return ['src']; }
 
   attributeChangedCallback(name, oldVal, newVal) {
-    if (name === 'src' && newVal && newVal !== oldVal) {
-      this.load(newVal);
-    }
+    if (name === 'src' && newVal && newVal !== oldVal) this.load(newVal);
   }
 
   connectedCallback() {
@@ -14,34 +12,50 @@ class QayWidget extends HTMLElement {
   }
 
   async load(url) {
+    if (this._loaded) return;
+    this._loaded = true;
+
     try {
       const resp = await fetch(url, { cache: 'no-cache' });
       const html = await resp.text();
       const doc = new DOMParser().parseFromString(html, 'text/html');
 
-      // Google Fonts
-      doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-        if (!document.querySelector(`link[href="${link.href}"]`)) {
-          document.head.appendChild(link.cloneNode(true));
-        }
-      });
+      // ── 1. SEO: key text in Light DOM (Google reads this) ──
+      const seoDiv = document.createElement('div');
+      seoDiv.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap';
 
-      // CSS — заменяем html/body на [data-qay]
+      // Extract H1, H2, paragraphs for SEO
+      ['h1','h2','p'].forEach(tag => {
+        doc.querySelectorAll(tag).forEach(el => {
+          const clone = document.createElement(tag);
+          clone.textContent = el.textContent;
+          seoDiv.appendChild(clone);
+        });
+      });
+      this.appendChild(seoDiv);
+
+      // ── 2. Visual: Shadow DOM (CSS isolated from Wix) ──
+      const shadow = this.attachShadow({ mode: 'open' });
+
+      // Google Fonts in shadow
+      const fontLink = document.createElement('link');
+      fontLink.rel = 'stylesheet';
+      fontLink.href = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap';
+      shadow.appendChild(fontLink);
+
+      // Styles
       doc.querySelectorAll('style').forEach(style => {
         const s = document.createElement('style');
-        s.textContent = style.textContent
-          .replace(/\bhtml\b/g, '[data-qay]')
-          .replace(/\bbody\b/g, '[data-qay]');
-        this.appendChild(s);
+        s.textContent = style.textContent;
+        shadow.appendChild(s);
       });
 
-      // Контент в Light DOM
+      // Content
       const wrapper = document.createElement('div');
-      wrapper.setAttribute('data-qay', '');
       wrapper.innerHTML = doc.body.innerHTML;
-      this.appendChild(wrapper);
+      shadow.appendChild(wrapper);
 
-      // Запускаем скрипты
+      // Run scripts inside shadow context
       wrapper.querySelectorAll('script').forEach(old => {
         const s = document.createElement('script');
         s.textContent = old.textContent;
