@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY Video</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#12232F;overflow-x:hidden}
+
+.sec{background:#12232F;padding:80px 0;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+.inner{display:table;width:100%;max-width:1000px;margin:0 auto;padding:0 40px}
+
+/* Header */
+.head{text-align:center;margin-bottom:48px}
+.eyebrow{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#B5A07A;font-weight:500;display:block;margin-bottom:14px}
+.h2{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:400;color:#fff;line-height:1.1;margin-bottom:12px;display:block}
+.sub{font-family:'Inter',sans-serif;font-size:14px;color:rgba(255,255,255,.5);font-weight:300;line-height:1.65;max-width:480px;margin:0 auto;display:block}
+
+/* Video wrapper */
+.video-wrap{
+  position:relative;width:100%;
+  padding-bottom:56.25%; /* 16:9 */
+  background:#000;
+  box-shadow:0 32px 80px rgba(0,0,0,.6);
+  cursor:pointer;
+  overflow:hidden;
+}
+
+/* Thumbnail */
+.thumb{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  transition:transform .6s ease, opacity .4s ease;
+}
+.video-wrap:hover .thumb{transform:scale(1.03)}
+
+/* Dark overlay */
+.thumb-overlay{
+  position:absolute;inset:0;
+  background:rgba(18,35,47,.35);
+  transition:background .3s ease;
+}
+.video-wrap:hover .thumb-overlay{background:rgba(18,35,47,.2)}
+
+/* Play button */
+.play{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:3;display:flex;flex-direction:column;align-items:center;gap:16px;
+  transition:transform .3s ease;
+}
+.video-wrap:hover .play{transform:translate(-50%,-50%) scale(1.05)}
+
+.play-circle{
+  width:80px;height:80px;
+  border-radius:50%;
+  background:rgba(181,160,122,.15);
+  border:1.5px solid rgba(181,160,122,.6);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s, border-color .3s;
+}
+.video-wrap:hover .play-circle{
+  background:rgba(181,160,122,.28);
+  border-color:#B5A07A;
+}
+.play-circle svg{width:26px;height:26px;fill:#fff;margin-left:4px}
+
+.play-label{
+  font-family:'Inter',sans-serif;font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);font-weight:500;
+}
+
+/* Duration badge */
+.duration{
+  position:absolute;bottom:16px;right:16px;
+  font-family:'Inter',sans-serif;font-size:11px;
+  color:#fff;background:rgba(0,0,0,.65);
+  padding:3px 8px;letter-spacing:.04em;
+  z-index:3;
+}
+
+/* Iframe (hidden until click) */
+.video-iframe{
+  position:absolute;inset:0;width:100%;height:100%;
+  border:none;display:none;
+}
+
+/* Info strip below */
+.info{
+  display:flex;justify-content:center;gap:40px;
+  margin-top:36px;flex-wrap:wrap;
+}
+.info-item{text-align:center}
+.info-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#fff;display:block;margin-bottom:4px}
+.info-lbl{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+
+/* Mobile */
+@media(max-width:680px){
+  .sec{padding:52px 0}
+  .inner{padding:0 20px}
+  .h2{font-size:30px}
+  .play-circle{width:64px;height:64px}
+  .play-circle svg{width:20px;height:20px}
+  .info{gap:24px}
+}
+</style>
+</head>
+<body>
+
+<div class="sec">
+  <div class="inner">
+
+    <div class="head">
+      <span class="eyebrow">Das Projekt im Film</span>
+      <span class="h2">Quartier am Yachthafen — erleben Sie es.</span>
+      <span class="sub">Ein Blick auf das Grundstück, die Lage und die Vision des neuen Wohnquartiers direkt am größten privaten Yachthafen Deutschlands.</span>
+    </div>
+
+    <div class="video-wrap" id="videoWrap" onclick="loadVideo()">
+      <div class="thumb" id="thumb" style="background-image:url('https://img.youtube.com/vi/hDOIsRKAP_g/maxresdefault.jpg')"></div>
+      <div class="thumb-overlay"></div>
+      <div class="play">
+        <div class="play-circle">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <span class="play-label">Video abspielen</span>
+      </div>
+      <div class="duration">Quartier am Yachthafen</div>
+      <iframe class="video-iframe" id="videoIframe" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+
+    <div class="info">
+      <div class="info-item">
+        <span class="info-val">102</span>
+        <span class="info-lbl">Einheiten gesamt</span>
+      </div>
+      <div class="info-item">
+        <span class="info-val">Am Holm 25</span>
+        <span class="info-lbl">Adresse Baufeld 1</span>
+      </div>
+      <div class="info-item">
+        <span class="info-val">Q4 2028</span>
+        <span class="info-lbl">Fertigstellung</span>
+      </div>
+      <div class="info-item">
+        <span class="info-val">ab 5 %</span>
+        <span class="info-lbl">Rendite p.a.</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function loadVideo(){
+  var wrap=document.getElementById('videoWrap');
+  var iframe=document.getElementById('videoIframe');
+  var thumb=document.getElementById('thumb');
+  iframe.src='https://www.youtube.com/embed/hDOIsRKAP_g?autoplay=1&rel=0&modestbranding=1';
+  iframe.style.display='block';
+  thumb.style.opacity='0';
+  wrap.querySelector('.thumb-overlay').style.display='none';
+  wrap.querySelector('.play').style.display='none';
+  wrap.querySelector('.duration').style.display='none';
+  wrap.style.cursor='default';
+  wrap.onclick=null;
+}
+</script>
+</body>
+</html>
