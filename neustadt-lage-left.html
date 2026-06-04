@@ -8,68 +8,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap');
 
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;background:#EDEAF2}
+html,body{width:100%;height:100%;overflow:hidden;background:#fff}
 
 .wrap{
-  width:490px;height:700px;
-  background:#EDEAF2;
-  padding:44px 44px 36px;
+  width:490px;height:820px;
+  background:#fff;
+  padding:28px 36px 0;
   display:flex;flex-direction:column;
   position:relative;overflow:hidden;
   font-family:'Inter',sans-serif;
   -webkit-font-smoothing:antialiased;
 }
 
-/* Decorative line top-left */
-.deco{
-  position:absolute;top:32px;left:44px;
-  width:48px;height:3px;
-  background:linear-gradient(90deg,#B5A07A,rgba(181,160,122,0));
-}
 
-/* Top: title + map side by side */
-.top{
-  display:flex;align-items:flex-start;
-  gap:20px;margin-top:20px;margin-bottom:28px;
-  flex:0 0 auto;
-}
-
-/* Title */
-.title-wrap{flex:1;min-width:0}
+/* Top */
+.top{margin-top:12px;margin-bottom:16px;flex:0 0 auto}
 .eyebrow{
   font-family:'Inter',sans-serif;font-size:9px;
   letter-spacing:.22em;text-transform:uppercase;
-  color:#B5A07A;font-weight:500;display:block;margin-bottom:10px;
+  color:#B5A07A;font-weight:500;display:block;margin-bottom:8px;
 }
 .title{
   font-family:'Cormorant Garamond',serif;
-  font-size:38px;font-weight:400;
-  color:#B5A07A;line-height:1.05;
+  font-size:26px;font-weight:400;
+  color:#B5A07A;line-height:1.1;
   text-transform:uppercase;letter-spacing:.02em;
 }
 
-/* Map */
-.map{
-  flex:0 0 170px;width:170px;
-  padding-top:4px;
-}
+/* Map — bottom, full width */
+.map{width:calc(100% + 72px);margin-left:-36px;margin-right:-36px;margin-top:20px;flex:0 0 auto}
 .map img{width:100%;height:auto;display:block}
 
 /* Divider */
 .divider{
   width:100%;height:1px;
   background:linear-gradient(90deg,rgba(181,160,122,.4),rgba(181,160,122,0));
-  margin-bottom:24px;flex:0 0 auto;
+  margin-bottom:14px;flex:0 0 auto;
 }
 
 /* Text */
-.text{flex:1;overflow:hidden}
+.text{flex:0 0 auto}
 .text p{
-  font-family:'Inter',sans-serif;font-size:13px;
-  font-weight:300;color:#1B3040;line-height:1.78;
-  margin-bottom:14px;
+  font-family:'Inter',sans-serif;font-size:12.5px;
+  font-weight:300;color:#1B3040;line-height:1.7;
 }
-.text p:last-child{margin-bottom:0}
 
 /* Distance tags */
 .tags{
@@ -88,30 +70,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:#EDEAF2}
 <body>
 <div class="wrap">
 
-  <div class="deco"></div>
-
   <div class="top">
-    <div class="title-wrap">
-      <span class="eyebrow">Die Lage</span>
-      <div class="title">Neustadt<br>in Holstein:<br>Charmantes<br>Küsten&shy;städtchen</div>
-    </div>
-    <div class="map">
-      <img src="https://static.wixstatic.com/media/9478fb_cebc036fb8a04f92ac65640870c72223~mv2.jpg" alt="Karte Deutschland — Quartier am Yachthafen Neustadt in Holstein">
-    </div>
+    <span class="eyebrow">Die Lage</span>
+    <div class="title">Neustadt in Holstein:<br>Charmantes<br>Küsten&shy;städtchen</div>
   </div>
 
   <div class="divider"></div>
 
   <div class="text">
-    <p>Das Quartier am Yachthafen liegt in Neustadt in Holstein am größten deutschen Yachthafen und verbindet maritimes Flair mit urbaner Eleganz. Eingebettet zwischen Ostsee und Küstenlandschaft bietet es einen beeindruckenden Blick auf das Wasser und die Segelschiffe.</p>
-    <p>Neustadt besticht durch mittelalterliche Geschichte und maritimen Charme. Es liegt an der "Vogelfluglinie" nach Dänemark und Skandinavien und ist über die A1 mit Hamburg und Kopenhagen verbunden.</p>
+    <p>Neustadt in Holstein ist eine lebendige Küstenstadt mit über 700 Jahren Geschichte, eingebettet zwischen der Lübecker Bucht und dem grünen Hinterland Schleswig-Holsteins. Der Stadtkern mit seinen Backsteinbauten, kleinen Cafés und dem belebten Hafen versprüht echten Nordseecharme — ohne den Trubel großer Touristenzentren. Die ancora Marina, Deutschlands größter privater Yachthafen, liegt direkt vor der Haustür und prägt das maritime Lebensgefühl des Quartiers. Naturschutzgebiete, Sandstrände und Radwege entlang der Küste machen die unmittelbare Umgebung zum idealen Rückzugsort — ob als Kapitalanlage oder als dauerhaftes Zuhause am Wasser.</p>
   </div>
 
-  <div class="tags">
-    <div class="tag">Hamburg 60 min</div>
-    <div class="tag">Lübeck 25 min</div>
-    <div class="tag">Ostsee direkt</div>
-    <div class="tag">A1 Autobahn</div>
+  <div class="map">
+    <img src="https://static.wixstatic.com/media/9478fb_cebc036fb8a04f92ac65640870c72223~mv2.jpg" alt="Karte Deutschland — Quartier am Yachthafen Neustadt in Holstein">
   </div>
 
 </div>
