@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY Baufortschritt — Quartier am Yachthafen Neustadt</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#1B3040;overflow-x:hidden}
+
+.sec{background:#1B3040;padding:80px 0;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+.inner{display:table;width:100%;max-width:1080px;margin:0 auto;padding:0 40px}
+
+/* Header */
+.head{text-align:center;margin-bottom:60px}
+.eyebrow{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#B5A07A;font-weight:500;display:block;margin-bottom:14px}
+.h2{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:400;color:#fff;line-height:1.1;margin-bottom:14px;display:block}
+.sub{font-family:'Inter',sans-serif;font-size:14px;color:rgba(255,255,255,.55);font-weight:300;line-height:1.65;max-width:520px;margin:0 auto;display:block}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.1)}
+
+/* Card */
+.card{background:#243D52;display:flex;flex-direction:column}
+.card-photo{width:100%;aspect-ratio:16/10;overflow:hidden}
+.card-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.card:hover .card-photo img{transform:scale(1.04)}
+.card-body{padding:24px 22px 28px;flex:1;display:flex;flex-direction:column}
+.card-date{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#B5A07A;font-weight:500;display:block;margin-bottom:12px}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:#fff;line-height:1.3;display:block;margin-bottom:12px;flex:1}
+.card-text{font-family:'Inter',sans-serif;font-size:12.5px;color:rgba(255,255,255,.55);font-weight:300;line-height:1.65;display:block}
+
+/* Progress bars below */
+.progress-wrap{margin-top:48px;padding-top:40px;border-top:1px solid rgba(255,255,255,.1)}
+.progress-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.pitem{padding:24px 28px;background:rgba(255,255,255,.05)}
+.p-label{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#B5A07A;font-weight:500;margin-bottom:6px}
+.p-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff;margin-bottom:16px;line-height:1.2}
+.p-bar-wrap{background:rgba(255,255,255,.12);height:2px;border-radius:2px;margin-bottom:8px}
+.p-bar{height:2px;background:#B5A07A;border-radius:2px}
+.p-pct{font-family:'Inter',sans-serif;font-size:12px;color:rgba(255,255,255,.45);letter-spacing:.05em}
+
+/* Mobile */
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .progress-grid{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+  .sec{padding:52px 0}
+  .inner{padding:0 20px}
+  .h2{font-size:30px}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="sec">
+  <div class="inner">
+
+    <div class="head">
+      <span class="eyebrow">Baufortschritt</span>
+      <span class="h2">Der Weg zum Quartier am Yachthafen.</span>
+      <span class="sub">Von der Grundstücksvorbereitung bis zum Rohbau — verfolgen Sie die Entwicklung des Projekts Am Holm 25 in Neustadt in Holstein.</span>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-photo">
+          <img src="https://static.wixstatic.com/media/9478fb_2185743978724be184a09dc3e4ae38e2~mv2.jpg" alt="Baufortschritt Quartier am Yachthafen Februar 2026 — Bodenarbeiten Neustadt" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="card-date">Februar 2026</span>
+          <span class="card-title">Bodenarbeiten nach erfolgreichem Abriss</span>
+          <span class="card-text">Die bauvorbereiten­den Maßnahmen laufen planmäßig. Der Weg für den offiziellen Baubeginn am Yachthafen Neustadt ist frei.</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo">
+          <img src="https://static.wixstatic.com/media/9478fb_96e3f6db0bb4403887ba5cae2e98f4dd~mv2.jpg" alt="Baufortschritt Quartier am Yachthafen November 2025 — Abrissarbeiten" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="card-date">November 2025</span>
+          <span class="card-title">Abrissarbeiten schreiten planmäßig voran</span>
+          <span class="card-text">Schritt für Schritt wird die Grundlage für das neue Quartier am Yachthafen geschaffen. Baufeld 1 nimmt Form an.</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo">
+          <img src="https://static.wixstatic.com/media/9478fb_86de4c95811d4847838015fad0f17713~mv2.jpg" alt="Baufortschritt Quartier am Yachthafen September 2025 — ancora Marina Neustadt" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="card-date">September 2025</span>
+          <span class="card-title">Beginn der Rückbauarbeiten am Grundstück</span>
+          <span class="card-text">Ein wichtiger Meilenstein im Projekt: Die sichtbaren Rückbauarbeiten markieren den Übergang zur aktiven Umsetzung.</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-photo">
+          <img src="https://static.wixstatic.com/media/9478fb_d13a9d3d10c040ce96bbd0d9eb7b23d5~mv2.jpg" alt="Baufortschritt Quartier am Yachthafen August 2025 — Grundstück Am Holm 25" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="card-date">August 2025</span>
+          <span class="card-title">Das Grundstück Am Holm 25 vor dem Beginn</span>
+          <span class="card-text">Das Grundstück am größten privaten Yachthafen Deutschlands — bereit für den Beginn der Rückbauarbeiten und den Neubau.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Progress bars -->
+    <div class="progress-wrap">
+      <div class="progress-grid">
+        <div class="pitem">
+          <div class="p-label">Baufeld 1</div>
+          <div class="p-title">Ferienwohnungen &amp; Eigentumswohnungen</div>
+          <div class="p-bar-wrap"><div class="p-bar" style="width:65%"></div></div>
+          <div class="p-pct">65 % — Rohbau abgeschlossen</div>
+        </div>
+        <div class="pitem">
+          <div class="p-label">Baufeld 2</div>
+          <div class="p-title">Eigentumswohnungen</div>
+          <div class="p-bar-wrap"><div class="p-bar" style="width:40%"></div></div>
+          <div class="p-pct">40 % — Erdarbeiten abgeschlossen</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
