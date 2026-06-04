@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap');
+
+/* ── Komplette Isolation: alle Regeln unter .qay ── */
+.qay * { box-sizing: border-box !important; margin: 0 !important; padding: 0 !important; border: 0 !important; font-size: 100% !important; font: inherit !important; vertical-align: baseline !important; }
+.qay { font-family: 'Inter', sans-serif !important; color: #2A2A2A !important; -webkit-font-smoothing: antialiased !important; width: 100% !important; }
+
+.qay-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 28px !important; max-width: 1080px !important; margin: 0 auto !important; padding: 0 !important; }
+@media (max-width: 760px) { .qay-grid { grid-template-columns: 1fr !important; } }
+
+/* ── Card ── */
+.qay-card { background: #ffffff !important; overflow: hidden !important; box-shadow: 0 4px 32px rgba(27,48,64,.08) !important; display: flex !important; flex-direction: column !important; }
+
+/* ── Image ── */
+.qay-img-wrap { height: 280px !important; overflow: hidden !important; position: relative !important; flex-shrink: 0 !important; }
+.qay-img-wrap img { width: 100% !important; height: 100% !important; object-fit: cover !important; display: block !important; transition: transform .55s ease !important; }
+.qay-card:hover .qay-img-wrap img { transform: scale(1.04) !important; }
+
+.qay-badge {
+  position: absolute !important; top: 18px !important; left: 18px !important;
+  background: #1B3040 !important; color: #ffffff !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 10px !important; letter-spacing: .16em !important; text-transform: uppercase !important;
+  padding: 5px 14px !important; font-weight: 500 !important; line-height: 1.4 !important;
+  display: inline-block !important;
+}
+
+/* ── Body ── */
+.qay-body { padding: 34px 34px 38px !important; display: flex !important; flex-direction: column !important; flex: 1 !important; }
+
+.qay-h3 {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 27px !important; font-weight: 400 !important;
+  color: #1B3040 !important; line-height: 1.2 !important;
+  margin-bottom: 8px !important; display: block !important;
+}
+.qay-price {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important; font-weight: 500 !important;
+  letter-spacing: .08em !important; color: #B5A07A !important;
+  margin-bottom: 20px !important; display: block !important;
+  text-transform: uppercase !important;
+}
+.qay-divider { width: 36px !important; height: 1px !important; background: #E2DDD6 !important; margin-bottom: 20px !important; display: block !important; }
+
+.qay-desc {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important; line-height: 1.72 !important;
+  color: #6B6B6B !important; margin-bottom: 24px !important;
+  display: block !important; font-weight: 300 !important;
+}
+
+/* ── Checklist ── */
+.qay-checks { list-style: none !important; margin-bottom: 30px !important; padding: 0 !important; }
+.qay-checks li {
+  display: flex !important; align-items: flex-start !important; gap: 10px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13.5px !important; color: #2A2A2A !important;
+  line-height: 1.45 !important; margin-bottom: 10px !important;
+  font-weight: 400 !important;
+}
+.qay-checks svg {
+  flex-shrink: 0 !important;
+  width: 17px !important; height: 17px !important;
+  min-width: 17px !important; min-height: 17px !important;
+  max-width: 17px !important; max-height: 17px !important;
+  margin-top: 1px !important; display: inline-block !important;
+  vertical-align: top !important;
+}
+
+/* ── Button ── */
+.qay-btn {
+  display: block !important; width: 100% !important;
+  padding: 15px 20px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 12px !important; font-weight: 500 !important;
+  letter-spacing: .14em !important; text-transform: uppercase !important;
+  text-align: center !important; text-decoration: none !important;
+  cursor: pointer !important; transition: background .2s, color .2s !important;
+  line-height: 1.4 !important; margin-top: auto !important;
+}
+.qay-btn-solid { background: #1B3040 !important; color: #ffffff !important; }
+.qay-btn-solid:hover { background: #243D52 !important; }
+.qay-btn-border { background: transparent !important; color: #1B3040 !important; border: 1.5px solid #1B3040 !important; }
+.qay-btn-border:hover { background: #1B3040 !important; color: #ffffff !important; }
+</style>
+</head>
+<body style="margin:0;padding:0;background:transparent;">
+
+<div class="qay">
+  <div class="qay-grid">
+
+    <!-- KARTE 1: Kapitalanlage -->
+    <div class="qay-card">
+      <div class="qay-img-wrap">
+        <img src="https://static.wixstatic.com/media/PLATZHALTERBILD1.jpg"
+             alt="Ferienwohnung Quartier am Yachthafen Neustadt">
+        <span class="qay-badge">Kapitalanlage</span>
+      </div>
+      <div class="qay-body">
+        <span class="qay-h3">Kaufen. Vermieten.<br>Entspannen.</span>
+        <span class="qay-price">Ab 348.800 € · Ferienwohnung</span>
+        <span class="qay-divider"></span>
+        <span class="qay-desc">47 vollmöblierte Apartments direkt am Yachthafen — ab dem ersten Tag vermietungsbereit. RELAMARE übernimmt die Verwaltung. Sie erhalten die Rendite: ab 5 % p.a., mit steuerlichen Vorteilen inklusive.</span>
+        <ul class="qay-checks">
+          <li>
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:17px;height:17px;min-width:17px;margin-top:1px;">
+              <circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/>
+              <path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Rendite ab 5 % p.a. — passives Einkommen
+          </li>
+          <li>
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:17px;height:17px;min-width:17px;margin-top:1px;">
+              <circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/>
+              <path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Vollmöbliert &amp; sofort vermietungsbereit
+          </li>
+          <li>
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:17px;height:17px;min-width:17px;margin-top:1px;">
+              <circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/>
+              <path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Fernwärme · KfW40 · steuerliche AfA-Vorteile
+          </li>
+        </ul>
+        <a class="qay-btn qay-btn-solid" href="#">Exposé Kapitalanlage anfordern →</a>
+      </div>
+    </div>
+
+    <!-- KARTE 2: Eigennutzung -->
+    <div class="qay-card">
+      <div class="qay-img-wrap">
+        <img src="https://static.wixstatic.com/media/PLATZHALTERBILD2.jpg"
+             alt="Eigentumswohnung Quartier am Yachthafen Neustadt">
+        <span class="qay-badge">Eigennutzung</span>
+      </div>
+      <div class="qay-body">
+        <span class="qay-h3">Endlich zu Hause —<br>direkt am Wasser.</span>
+        <span class="qay-price">Ab 289.900 € · Eigentumswohnung</span>
+        <span class="qay-divider"></span>
+        <span class="qay-desc">55 Eigentumswohnungen in nachhaltiger Holzbauweise — ausschließlich als Erstwohnsitz. Kein Ferienlärm, kein Zweitwohnsitz. Nur Ihr Zuhause in Neustadt in Holstein, direkt am Wasser.</span>
+        <ul class="qay-checks">
+          <li>
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:17px;height:17px;min-width:17px;margin-top:1px;">
+              <circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/>
+              <path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Ausschließlich Erstwohnsitz — kein Zweitwohnsitz
+          </li>
+          <li>
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:17px;height:17px;min-width:17px;margin-top:1px;">
+              <circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/>
+              <path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Holzbauweise · KfW40 · Förderung möglich
+          </li>
+          <li>
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:17px;height:17px;min-width:17px;margin-top:1px;">
+              <circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/>
+              <path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Fertigstellung Q4 2028 · Baufeld 1 &amp; 2
+          </li>
+        </ul>
+        <a class="qay-btn qay-btn-border" href="#">Exposé Eigentumswohnung anfordern →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

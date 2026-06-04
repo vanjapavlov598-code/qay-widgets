@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY Eigentumswohnungen — Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#F7F5F1;display:flex;height:100vh;overflow:hidden}
+.preview{flex:1;overflow-y:auto;padding:40px;display:flex;align-items:flex-start;justify-content:center}
+.sidebar{width:320px;flex-shrink:0;background:#1B3040;overflow-y:auto;display:flex;flex-direction:column}
+.sb-top{padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-top h1{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#fff;margin-bottom:2px}
+.sb-top p{font-size:10px;color:rgba(255,255,255,.35)}
+.save-bar{display:flex;gap:7px;padding:9px 20px;background:rgba(0,0,0,.2);border-bottom:1px solid rgba(255,255,255,.08)}
+.btn-save{flex:1;padding:8px;background:#B5A07A;color:#fff;border:none;font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:4px}
+.btn-save:hover{opacity:.85}
+.btn-reset{padding:8px 11px;background:transparent;color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.1);font-family:'Inter',sans-serif;font-size:10px;cursor:pointer;border-radius:4px}
+.btn-reset:hover{color:rgba(255,255,255,.6)}
+.save-ts{font-size:9px;color:rgba(255,255,255,.25);padding:0 20px 7px}
+.tabs{display:flex;border-bottom:1px solid rgba(255,255,255,.08)}
+.tab{flex:1;padding:11px 0;text-align:center;font-size:10px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.35);cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.tab.active{color:#B5A07A;border-bottom-color:#B5A07A}
+.panel{display:none;padding:16px 20px 24px}
+.panel.active{display:block}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:5px}
+.field input,.field textarea{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:'Inter',sans-serif;font-size:12px;padding:8px 10px;border-radius:4px;outline:none;resize:none;transition:border-color .2s}
+.field input:focus,.field textarea:focus{border-color:#B5A07A}
+.field input::placeholder{color:rgba(255,255,255,.18)}
+.sep{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#B5A07A;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.08);margin:16px 0 11px}
+.img-prev{width:100%;height:80px;object-fit:contain;border-radius:4px;display:block;margin-bottom:6px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+.img-row{display:flex;gap:6px}
+.img-row input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:'Inter',sans-serif;font-size:11px;padding:7px 8px;border-radius:4px;outline:none}
+.img-row input:focus{border-color:#B5A07A}
+.btn-file{padding:7px 10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.5);font-size:10px;cursor:pointer;border-radius:4px;white-space:nowrap}
+.btn-file:hover{background:rgba(255,255,255,.12);color:#fff}
+.attr-row{display:flex;gap:5px;margin-bottom:5px;align-items:center}
+.attr-lbl{font-size:9px;color:rgba(255,255,255,.3);width:80px;flex-shrink:0}
+.attr-row input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:'Inter',sans-serif;font-size:11px;padding:6px 8px;border-radius:4px;outline:none}
+.attr-row input:focus{border-color:#B5A07A}
+.btn-export{width:100%;margin-top:8px;padding:11px;background:#B5A07A;color:#fff;border:none;font-family:'Inter',sans-serif;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:opacity .2s}
+.btn-export:hover{opacity:.85}
+.btn-dl{width:100%;margin-top:7px;padding:10px;background:transparent;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.12);font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:4px}
+.btn-dl:hover{border-color:rgba(255,255,255,.35);color:rgba(255,255,255,.7)}
+.code-out{width:100%;height:180px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.45);font-family:monospace;font-size:9px;padding:9px;border-radius:4px;resize:none;outline:none;line-height:1.5;margin-top:10px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1B3040;color:#fff;padding:8px 20px;border-radius:18px;font-size:12px;font-weight:500;box-shadow:0 4px 14px rgba(0,0,0,.3);pointer-events:none;opacity:0;transition:opacity .3s;z-index:9999}
+.toast.show{opacity:1}
+
+/* ── KARTEN ── */
+.qetw *{box-sizing:border-box!important}
+.qetw{font-family:'Inter',sans-serif!important;width:100%}
+.qetw-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:1px!important;background:#E2DDD6!important;max-width:1080px!important;margin:0 auto!important}
+@media(max-width:760px){.qetw-grid{grid-template-columns:1fr!important}}
+.qetw-card{background:#fff!important;padding:32px 28px 36px!important;margin:0!important;border:none!important;display:flex!important;flex-direction:column!important}
+.qetw-card.ae{outline:2px solid #B5A07A!important}
+.qetw-type{font-family:'Inter',sans-serif!important;font-size:10px!important;letter-spacing:.18em!important;text-transform:uppercase!important;color:#B5A07A!important;font-weight:500!important;margin:0 0 10px!important;padding:0!important;display:block!important;border:none!important}
+.qetw-name{font-family:'Cormorant Garamond',serif!important;font-size:26px!important;font-weight:400!important;color:#1B3040!important;margin:0 0 5px!important;padding:0!important;border:none!important;line-height:1.2!important;display:block!important}
+.qetw-price{font-family:'Inter',sans-serif!important;font-size:14px!important;font-weight:500!important;color:#1B3040!important;margin:0 0 18px!important;padding:0!important;display:block!important;border:none!important}
+.qetw-img{width:100%!important;height:140px!important;object-fit:contain!important;display:block!important;margin:0 0 18px!important;padding:0!important;border:none!important;background:#F7F5F1!important}
+.qetw-img.h{display:none!important}
+.qetw-attrs{list-style:none!important;margin:0!important;padding:0!important;flex:1!important}
+.qetw-attrs li{font-family:'Inter',sans-serif!important;font-size:13px!important;color:#6B6B6B!important;padding:6px 0!important;border-bottom:1px solid #E2DDD6!important;border-top:none!important;border-left:none!important;border-right:none!important;display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:8px!important;margin:0!important}
+.qetw-attrs li:last-child{border-bottom:none!important}
+.qetw-attrs li b{color:#2A2A2A!important;font-weight:500!important;font-style:normal!important;text-align:right!important;flex-shrink:1!important;min-width:0!important;word-break:break-word!important;max-width:55%!important}
+</style>
+</head>
+<body>
+
+<div class="preview">
+  <div class="qetw" style="width:100%;max-width:1080px">
+    <div class="qetw-grid">
+      <div class="qetw-card ae" id="c1">
+        <span class="qetw-type">Eigentumswohnung · BF 1</span>
+        <span class="qetw-name" id="n1">Oceanus</span>
+        <span class="qetw-price" id="p1">ab 289.900 €</span>
+        <img class="qetw-img" id="img1" src="https://static.wixstatic.com/media/09cf10_1ab5c0b0154a4e0fb59406f6d36e76e3~mv2.webp" alt="">
+        <ul class="qetw-attrs" id="a1">
+          <li>Wohnfläche <b id="a1_0">ca. 55 m²</b></li>
+          <li>Zimmer <b id="a1_1">2 Zimmer · 1 Bad</b></li>
+          <li>Terrasse / Balkon <b id="a1_2">Balkon mit Wasserblick</b></li>
+          <li>Bauweise <b id="a1_3">Massivbauweise</b></li>
+          <li>Energiestandard <b id="a1_4">KfW40</b></li>
+        </ul>
+      </div>
+      <div class="qetw-card" id="c2">
+        <span class="qetw-type">Eigentumswohnung · BF 1</span>
+        <span class="qetw-name" id="n2">Nautilus</span>
+        <span class="qetw-price" id="p2">ab 299.900 €</span>
+        <img class="qetw-img" id="img2" src="https://static.wixstatic.com/media/09cf10_c23efd4d505349fa8a3d3e34bac604c4~mv2.webp" alt="">
+        <ul class="qetw-attrs" id="a2">
+          <li>Wohnfläche <b id="a2_0">ca. 75 m²</b></li>
+          <li>Zimmer <b id="a2_1">3 Zimmer · 1 Bad + WC</b></li>
+          <li>Terrasse / Balkon <b id="a2_2">Balkon</b></li>
+          <li>Bauweise <b id="a2_3">Massivbauweise</b></li>
+          <li>Energiestandard <b id="a2_4">KfW40</b></li>
+        </ul>
+      </div>
+      <div class="qetw-card" id="c3">
+        <span class="qetw-type">Eigentumswohnung · BF 2</span>
+        <span class="qetw-name" id="n3">Zephyr</span>
+        <span class="qetw-price" id="p3">ab 319.900 €</span>
+        <img class="qetw-img" id="img3" src="https://static.wixstatic.com/media/09cf10_35041038b87346aea46ea5ceb1c1eaaa~mv2.webp" alt="">
+        <ul class="qetw-attrs" id="a3">
+          <li>Wohnfläche <b id="a3_0">ca. 70 m²</b></li>
+          <li>Zimmer <b id="a3_1">3 Zimmer · 1 Bad</b></li>
+          <li>Terrasse / Balkon <b id="a3_2">Terrasse · Wasserblick</b></li>
+          <li>Bauweise <b id="a3_3">Holzbauweise FSC</b></li>
+          <li>Energiestandard <b id="a3_4">KfW40</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sidebar">
+  <div class="sb-top">
+    <h1>Eigentumswohnungen</h1>
+    <p>Oceanus · Nautilus · Zephyr</p>
+  </div>
+  <div class="save-bar">
+    <button class="btn-save" onclick="save()">💾 Speichern</button>
+    <button class="btn-reset" onclick="reset()">Reset</button>
+  </div>
+  <div class="save-ts" id="ts"></div>
+
+  <div class="tabs">
+    <div class="tab active" data-p="p1" onclick="tab(this)">Oceanus</div>
+    <div class="tab"        data-p="p2" onclick="tab(this)">Nautilus</div>
+    <div class="tab"        data-p="p3" onclick="tab(this)">Zephyr</div>
+    <div class="tab"        data-p="px" onclick="tab(this)">Export</div>
+  </div>
+
+  <div class="panel active" id="p1">
+    <div class="field"><label>Name</label><input id="fn1" oninput="sy('n1',this.value)"></div>
+    <div class="field"><label>Preis</label><input id="fp1" oninput="sy('p1',this.value)"></div>
+    <div class="field"><label>Grundriss (URL)</label>
+      <img class="img-prev" id="pv1" src="https://static.wixstatic.com/media/09cf10_1ab5c0b0154a4e0fb59406f6d36e76e3~mv2.webp">
+      <div class="img-row">
+        <input id="fu1" placeholder="URL" oninput="si(1,this.value)">
+        <label class="btn-file">Datei<input type="file" accept="image/*" style="display:none" onchange="lf(1,this)"></label>
+      </div>
+    </div>
+    <div class="sep">Attribute</div>
+    <div id="af1"></div>
+  </div>
+
+  <div class="panel" id="p2">
+    <div class="field"><label>Name</label><input id="fn2" oninput="sy('n2',this.value)"></div>
+    <div class="field"><label>Preis</label><input id="fp2" oninput="sy('p2',this.value)"></div>
+    <div class="field"><label>Grundriss (URL)</label>
+      <img class="img-prev" id="pv2" src="https://static.wixstatic.com/media/09cf10_c23efd4d505349fa8a3d3e34bac604c4~mv2.webp">
+      <div class="img-row">
+        <input id="fu2" placeholder="URL" oninput="si(2,this.value)">
+        <label class="btn-file">Datei<input type="file" accept="image/*" style="display:none" onchange="lf(2,this)"></label>
+      </div>
+    </div>
+    <div class="sep">Attribute</div>
+    <div id="af2"></div>
+  </div>
+
+  <div class="panel" id="p3">
+    <div class="field"><label>Name</label><input id="fn3" oninput="sy('n3',this.value)"></div>
+    <div class="field"><label>Preis</label><input id="fp3" oninput="sy('p3',this.value)"></div>
+    <div class="field"><label>Grundriss (URL)</label>
+      <img class="img-prev" id="pv3" src="https://static.wixstatic.com/media/09cf10_35041038b87346aea46ea5ceb1c1eaaa~mv2.webp">
+      <div class="img-row">
+        <input id="fu3" placeholder="URL" oninput="si(3,this.value)">
+        <label class="btn-file">Datei<input type="file" accept="image/*" style="display:none" onchange="lf(3,this)"></label>
+      </div>
+    </div>
+    <div class="sep">Attribute</div>
+    <div id="af3"></div>
+  </div>
+
+  <div class="panel" id="px">
+    <p style="font-size:11px;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:12px">Wix → Einbetten → HTML-Code</p>
+    <button class="btn-export" onclick="copy()">Code kopieren</button>
+    <button class="btn-dl" onclick="dl()">Als HTML speichern</button>
+    <textarea class="code-out" id="co" readonly></textarea>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script>
+var LBLS=['Wohnfläche','Zimmer','Terrasse / Balkon','Bauweise','Energiestandard'];
+var D={
+  n1:'Oceanus',  p1:'ab 289.900 €', img1:'https://static.wixstatic.com/media/09cf10_1ab5c0b0154a4e0fb59406f6d36e76e3~mv2.webp', a1:['ca. 55 m²','2 Zimmer · 1 Bad','Balkon mit Wasserblick','Massivbauweise','KfW40'],
+  n2:'Nautilus', p2:'ab 299.900 €', img2:'https://static.wixstatic.com/media/09cf10_c23efd4d505349fa8a3d3e34bac604c4~mv2.webp', a2:['ca. 75 m²','3 Zimmer · 1 Bad + WC','Balkon','Massivbauweise','KfW40'],
+  n3:'Zephyr',   p3:'ab 319.900 €', img3:'https://static.wixstatic.com/media/09cf10_35041038b87346aea46ea5ceb1c1eaaa~mv2.webp', a3:['ca. 70 m²','3 Zimmer · 1 Bad','Terrasse · Wasserblick','Holzbauweise FSC','KfW40']
+};
+var LS='qay-etw-v2';
+
+function sy(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+function si(n,src){
+  var img=document.getElementById('img'+n),pv=document.getElementById('pv'+n);
+  if(!src){img.classList.add('h');return;}
+  img.src=src;img.classList.remove('h');pv.src=src;D['img'+n]=src;
+}
+function lf(n,inp){
+  var f=inp.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(e){si(n,e.target.result);document.getElementById('fu'+n).value=f.name;};
+  r.readAsDataURL(f);
+}
+function tab(el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById(el.dataset.p).classList.add('active');
+  document.querySelectorAll('.qetw-card').forEach(function(c){c.classList.remove('ae');});
+  if(el.dataset.p==='p1') document.getElementById('c1').classList.add('ae');
+  if(el.dataset.p==='p2') document.getElementById('c2').classList.add('ae');
+  if(el.dataset.p==='p3') document.getElementById('c3').classList.add('ae');
+  if(el.dataset.p==='px') buildCode();
+}
+function buildAttrs(n){
+  var div=document.getElementById('af'+n);div.innerHTML='';
+  LBLS.forEach(function(lbl,i){
+    var row=document.createElement('div');row.className='attr-row';
+    row.innerHTML='<span class="attr-lbl">'+lbl+'</span><input value="'+(D['a'+n][i]||'')+'" data-n="'+n+'" data-i="'+i+'" oninput="ua(this)">';
+    div.appendChild(row);
+  });
+}
+function ua(inp){
+  var n=inp.dataset.n,i=parseInt(inp.dataset.i);
+  D['a'+n][i]=inp.value;
+  var b=document.getElementById('a'+n+'_'+i);if(b)b.textContent=inp.value;
+}
+function fill(){
+  [1,2,3].forEach(function(n){
+    document.getElementById('fn'+n).value=D['n'+n]||'';
+    document.getElementById('fp'+n).value=D['p'+n]||'';
+    document.getElementById('fu'+n).value=D['img'+n]||'';
+    document.getElementById('pv'+n).src=D['img'+n]||'';
+  });
+}
+function render(){
+  [1,2,3].forEach(function(n){
+    sy('n'+n,D['n'+n]);sy('p'+n,D['p'+n]);
+    var img=document.getElementById('img'+n);
+    if(D['img'+n]){img.src=D['img'+n];img.classList.remove('h');}else img.classList.add('h');
+    D['a'+n].forEach(function(v,i){var b=document.getElementById('a'+n+'_'+i);if(b)b.textContent=v;});
+  });
+}
+function save(){
+  var s=JSON.parse(JSON.stringify(D));
+  [1,2,3].forEach(function(n){
+    s['n'+n]=document.getElementById('fn'+n).value;
+    s['p'+n]=document.getElementById('fp'+n).value;
+    s['img'+n]=document.getElementById('fu'+n).value;
+    var cont=document.getElementById('af'+n);
+    if(cont)cont.querySelectorAll('input').forEach(function(inp,i){s['a'+n][i]=inp.value;});
+  });
+  s._at=new Date().toISOString();
+  localStorage.setItem(LS,JSON.stringify(s));
+  var ts=new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('ts').textContent='Gespeichert '+ts;
+  toast('Gespeichert ✓');
+}
+function loadLS(){
+  var r=localStorage.getItem(LS);if(!r)return;
+  try{var s=JSON.parse(r);Object.keys(D).forEach(function(k){if(s[k]!==undefined)D[k]=s[k];});
+  if(s._at){var d=new Date(s._at);document.getElementById('ts').textContent='Gespeichert '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}}catch(e){}
+}
+function reset(){if(!confirm('Zurücksetzen?'))return;localStorage.removeItem(LS);location.reload();}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function buildCode(){
+  var CSS='<style>\n@import url(\'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap\');\n.qetw *{box-sizing:border-box!important}.qetw{font-family:\'Inter\',sans-serif!important;width:100%}.qetw-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:1px!important;background:#E2DDD6!important;max-width:1080px!important;margin:0 auto!important}.qetw-card{background:#fff!important;padding:32px 28px 36px!important;margin:0!important;border:none!important;display:flex!important;flex-direction:column!important}.qetw-type{font-family:\'Inter\',sans-serif!important;font-size:10px!important;letter-spacing:.18em!important;text-transform:uppercase!important;color:#B5A07A!important;font-weight:500!important;margin:0 0 10px!important;padding:0!important;display:block!important;border:none!important}.qetw-name{font-family:\'Cormorant Garamond\',serif!important;font-size:26px!important;font-weight:400!important;color:#1B3040!important;margin:0 0 5px!important;padding:0!important;border:none!important;line-height:1.2!important;display:block!important}.qetw-price{font-family:\'Inter\',sans-serif!important;font-size:14px!important;font-weight:500!important;color:#1B3040!important;margin:0 0 18px!important;padding:0!important;display:block!important;border:none!important}.qetw-img{width:100%!important;height:140px!important;object-fit:contain!important;display:block!important;margin:0 0 18px!important;padding:0!important;border:none!important;background:#F7F5F1!important}.qetw-attrs{list-style:none!important;margin:0!important;padding:0!important;flex:1!important}.qetw-attrs li{font-family:\'Inter\',sans-serif!important;font-size:13px!important;color:#6B6B6B!important;padding:6px 0!important;border-bottom:1px solid #E2DDD6!important;border-top:none!important;border-left:none!important;border-right:none!important;display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:8px!important;margin:0!important}.qetw-attrs li:last-child{border-bottom:none!important}.qetw-attrs li b{color:#2A2A2A!important;font-weight:500!important;font-style:normal!important;text-align:right!important;flex-shrink:1!important;min-width:0!important;word-break:break-word!important;max-width:55%!important}@media(max-width:760px){.qetw-grid{grid-template-columns:1fr!important}}\n</style>';
+  var TYPE=['Eigentumswohnung · BF 1','Eigentumswohnung · BF 1','Eigentumswohnung · BF 2'];
+  var cards=[1,2,3].map(function(n){
+    var img=D['img'+n]?'<img class="qetw-img" src="'+esc(D['img'+n])+'" alt="'+esc(D['n'+n])+'">':'';
+    var li=LBLS.map(function(l,i){return'<li>'+esc(l)+' <b>'+esc(D['a'+n][i])+'</b></li>';}).join('');
+    return'<div class="qetw-card"><span class="qetw-type">'+TYPE[n-1]+'</span><span class="qetw-name">'+esc(D['n'+n])+'</span><span class="qetw-price">'+esc(D['p'+n])+'</span>'+img+'<ul class="qetw-attrs">'+li+'</ul></div>';
+  }).join('\n');
+  var code=CSS+'\n<div class="qetw"><div class="qetw-grid">\n'+cards+'\n</div></div>';
+  document.getElementById('co').value=code;
+  return code;
+}
+function copy(){var c=buildCode();var ta=document.createElement('textarea');ta.value=c;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Kopiert!');}
+function dl(){var c=buildCode();var b=new Blob([c],{type:'text/html;charset=utf-8'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='qay-etw-karten.html';a.click();}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2000);}
+
+loadLS();render();fill();
+[1,2,3].forEach(buildAttrs);
+</script>
+</body>
+</html>

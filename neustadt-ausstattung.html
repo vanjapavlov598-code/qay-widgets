@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY Ausstattung — Widget</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap');
+
+/* ── Reset & Isolation ── */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow-x:hidden}
+.qaus{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;background:#F7F5F1;padding:72px 0;overflow-x:hidden}
+.qaus-inner{display:table;width:100%;max-width:1080px;margin:0 auto;padding:0 40px}
+
+/* ── Header ── */
+.qaus-head{text-align:center!important;margin-bottom:56px!important}
+.qaus-eyebrow{
+  font-family:'Inter',sans-serif!important;font-size:10px!important;
+  letter-spacing:.24em!important;text-transform:uppercase!important;
+  color:#B5A07A!important;font-weight:500!important;
+  display:block!important;margin-bottom:14px!important;
+  border:none!important;padding:0!important;
+}
+.qaus-h2{
+  font-family:'Cormorant Garamond',serif!important;font-size:42px!important;
+  font-weight:400!important;color:#1B3040!important;line-height:1.1!important;
+  margin-bottom:16px!important;border:none!important;padding:0!important;
+}
+.qaus-sub{
+  font-family:'Inter',sans-serif!important;font-size:15px!important;
+  color:#6B6B6B!important;font-weight:300!important;line-height:1.65!important;
+  max-width:520px!important;margin:0 auto!important;border:none!important;padding:0!important;
+}
+
+/* ── Grid ── */
+.qaus-grid{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:0 60px!important;
+  max-width:1000px!important;
+  margin:0 auto!important;
+}
+
+/* ── Column ── */
+.qaus-col{}
+.qaus-col-title{
+  font-family:'Inter',sans-serif!important;font-size:14px!important;
+  font-weight:600!important;color:#1B3040!important;
+  padding-bottom:16px!important;
+  border-bottom:1.5px solid #1B3040!important;
+  margin-bottom:0!important;display:block!important;
+}
+
+/* ── List ── */
+.qaus-list{list-style:none!important;padding:0!important;margin:0!important}
+.qaus-list li{
+  font-family:'Inter',sans-serif!important;font-size:14px!important;
+  color:#2A2A2A!important;font-weight:300!important;
+  padding:12px 0 12px 24px!important;
+  border-bottom:1px solid #E2DDD6!important;
+  position:relative!important;
+  line-height:1.45!important;
+  margin:0!important;
+}
+.qaus-list li::before{
+  content:'—'!important;
+  position:absolute!important;left:0!important;top:12px!important;
+  color:#B5A07A!important;font-weight:400!important;
+  font-size:14px!important;
+}
+
+/* ── Mobile ── */
+@media(max-width:680px){
+  .qaus{padding:48px 20px!important}
+  .qaus-h2{font-size:30px!important}
+  .qaus-grid{grid-template-columns:1fr!important;gap:40px 0!important}
+}
+</style>
+</head>
+<body style="margin:0;padding:0;background:#F7F5F1">
+
+<div class="qaus">
+  <div class="qaus-inner">
+
+  <div class="qaus-head">
+    <span class="qaus-eyebrow">Qualität &amp; Ausstattung</span>
+    <h2 class="qaus-h2">Was in jeder Einheit steckt.</h2>
+    <p class="qaus-sub">Hochwertige Materialien, durchdachte Details — von der Eingangstür bis zur Terrasse.</p>
+  </div>
+
+  <div class="qaus-grid">
+
+    <div class="qaus-col">
+      <span class="qaus-col-title">Ferienwohnungen</span>
+      <ul class="qaus-list">
+        <li>Vollständige Möblierung &amp; Einrichtung</li>
+        <li>Löffelfertig zur Ferienvermietung</li>
+        <li>Hochwertige Einbauküche</li>
+        <li>Fußbodenheizung via Fernwärme</li>
+        <li>Terrasse oder Balkon</li>
+        <li>RELAMARE Komplettmanagement</li>
+        <li>Tiefgaragenstellplatz möglich</li>
+        <li>KfW40-Energiestandard</li>
+      </ul>
+    </div>
+
+    <div class="qaus-col">
+      <span class="qaus-col-title">Eigentumswohnungen</span>
+      <ul class="qaus-list">
+        <li>Nachhaltige Holzbauweise</li>
+        <li>Fußbodenheizung via Fernwärme</li>
+        <li>Hochwertige Sanitäranlagen</li>
+        <li>Individuell planbare Innenausstattung</li>
+        <li>Terrasse, Balkon oder Garten</li>
+        <li>Aufzug in jedem Gebäude</li>
+        <li>Tiefgarage mit Ladeinfrastruktur</li>
+        <li>KfW40 · Förderung beantragbar</li>
+      </ul>
+    </div>
+
+  </div>
+  </div>
+</div>
+
+</body>
+</html>

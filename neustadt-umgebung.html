@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY Umgebung — Widget</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow-x:hidden}
+.qumg{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;background:#F7F5F1;padding:80px 0}
+.qumg-inner{display:table;width:100%;max-width:1080px;margin:0 auto;padding:0 40px}
+
+/* Header */
+.qumg-head{text-align:center!important;margin-bottom:56px!important}
+.qumg-eyebrow{font-family:'Inter',sans-serif!important;font-size:10px!important;letter-spacing:.24em!important;text-transform:uppercase!important;color:#B5A07A!important;font-weight:500!important;display:block!important;margin-bottom:14px!important;border:none!important;padding:0!important}
+.qumg-h2{font-family:'Cormorant Garamond',serif!important;font-size:42px!important;font-weight:400!important;color:#1B3040!important;line-height:1.1!important;border:none!important;padding:0!important}
+
+/* Grid */
+.qumg-grid{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:28px!important;max-width:1080px!important;margin:0 auto!important}
+
+/* Item */
+.qumg-item{text-align:center!important;padding:0 8px!important}
+
+/* Icon — border circle, not filled */
+.qumg-icon{width:56px!important;height:56px!important;border:1px solid #E2DDD6!important;border-radius:50%!important;margin:0 auto 16px!important;display:flex!important;align-items:center!important;justify-content:center!important;background:transparent!important}
+.qumg-icon svg{width:24px!important;height:24px!important;min-width:24px!important;stroke:#1B3040!important;fill:none!important;stroke-width:1.4!important;display:block!important}
+
+/* Text */
+.qumg-h4{font-family:'Cormorant Garamond',serif!important;font-size:18px!important;font-weight:400!important;color:#1B3040!important;margin-bottom:8px!important;border:none!important;padding:0!important;display:block!important}
+.qumg-p{font-family:'Inter',sans-serif!important;font-size:12.5px!important;color:#6B6B6B!important;font-weight:300!important;line-height:1.6!important;border:none!important;padding:0!important}
+
+/* Mobile */
+@media(max-width:760px){
+  .qumg{padding:52px 20px!important}
+  .qumg-h2{font-size:30px!important}
+  .qumg-grid{grid-template-columns:repeat(2,1fr)!important;gap:32px!important}
+}
+@media(max-width:420px){
+  .qumg-grid{grid-template-columns:1fr!important}
+}
+</style>
+</head>
+<body style="margin:0;padding:0;background:#F7F5F1">
+
+<div class="qumg">
+  <div class="qumg-inner">
+
+  <div class="qumg-head">
+    <span class="qumg-eyebrow">Die Umgebung</span>
+    <h2 class="qumg-h2">Alles, was das Leben leichter macht.</h2>
+  </div>
+
+  <div class="qumg-grid">
+
+    <div class="qumg-item">
+      <div class="qumg-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+        </svg>
+      </div>
+      <span class="qumg-h4">Altstadt &amp; Einkauf</span>
+      <p class="qumg-p">Historische Innenstadt von Neustadt in Holstein — fußläufig in 10 Minuten.</p>
+    </div>
+
+    <div class="qumg-item">
+      <div class="qumg-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.522 4.82 3.889 6.204L6 21l4.5-2.25A10.44 10.44 0 0012 19c4.97 0 9-3.185 9-7.115C21 7.985 16.97 5 12 5z"/>
+        </svg>
+      </div>
+      <span class="qumg-h4">ancora Marina</span>
+      <p class="qumg-p">Über 1.400 Liegeplätze, Yachthotel, Restaurants und Wassersport — direkt vor der Tür.</p>
+    </div>
+
+    <div class="qumg-item">
+      <div class="qumg-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+        </svg>
+      </div>
+      <span class="qumg-h4">Schulen &amp; Versorgung</span>
+      <p class="qumg-p">Alle Schulformen, Ärzte, Supermärkte — eine voll versorgte Küstenstadt mit 15.000 Einwohnern.</p>
+    </div>
+
+    <div class="qumg-item">
+      <div class="qumg-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253M3 12c0 .778.099 1.533.284 2.253"/>
+        </svg>
+      </div>
+      <span class="qumg-h4">Natur &amp; Ostsee</span>
+      <p class="qumg-p">Strände, Naturschutzgebiete, Radwege entlang der Küste — Natur direkt vor der Wohnanlage.</p>
+    </div>
+
+    </div>
+</div>
+</div>
+
+</body>
+</html>

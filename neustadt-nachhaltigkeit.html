@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY Nachhaltigkeit — Widget</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow-x:hidden}
+.qnk{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;background:#fff;padding:80px 0}
+.qnk-inner{display:table;width:100%;max-width:1080px;margin:0 auto;padding:0 40px}
+
+/* Header */
+.qnk-head{text-align:center!important;margin-bottom:60px!important}
+.qnk-eyebrow{font-family:'Inter',sans-serif!important;font-size:10px!important;letter-spacing:.24em!important;text-transform:uppercase!important;color:#B5A07A!important;font-weight:500!important;display:block!important;margin-bottom:14px!important;border:none!important;padding:0!important}
+.qnk-h2{font-family:'Cormorant Garamond',serif!important;font-size:42px!important;font-weight:400!important;color:#1B3040!important;line-height:1.1!important;border:none!important;padding:0!important}
+
+/* Grid */
+.qnk-grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;max-width:1080px!important;margin:0 auto!important;gap:0!important}
+
+/* Item */
+.qnk-item{padding:0 44px!important;text-align:center!important;border:none!important}
+.qnk-item + .qnk-item{border-left:1px solid #E2DDD6!important}
+
+/* Icon */
+.qnk-icon{width:56px!important;height:56px!important;background:#1B3040!important;border-radius:50%!important;margin:0 auto 22px!important;display:flex!important;align-items:center!important;justify-content:center!important;flex-shrink:0!important}
+.qnk-icon svg{width:24px!important;height:24px!important;min-width:24px!important;stroke:#fff!important;fill:none!important;stroke-width:1.5!important;display:block!important}
+
+/* Text */
+.qnk-h3{font-family:'Cormorant Garamond',serif!important;font-size:22px!important;font-weight:400!important;color:#1B3040!important;margin-bottom:12px!important;border:none!important;padding:0!important;display:block!important}
+.qnk-p{font-family:'Inter',sans-serif!important;font-size:13.5px!important;color:#6B6B6B!important;font-weight:300!important;line-height:1.7!important;border:none!important;padding:0!important}
+
+/* Mobile */
+@media(max-width:680px){
+  .qnk{padding:52px 20px!important}
+  .qnk-h2{font-size:30px!important}
+  .qnk-grid{grid-template-columns:1fr!important}
+  .qnk-item + .qnk-item{border-left:none!important;border-top:1px solid #E2DDD6!important;padding-top:40px!important;margin-top:40px!important}
+  .qnk-item{padding:0!important}
+}
+</style>
+</head>
+<body style="margin:0;padding:0;background:#fff">
+
+<div class="qnk">
+  <div class="qnk-inner">
+
+  <div class="qnk-head">
+    <span class="qnk-eyebrow">Nachhaltigkeit</span>
+    <h2 class="qnk-h2">Gebaut, um zu bleiben.</h2>
+  </div>
+
+  <div class="qnk-grid">
+
+    <!-- Fernwärme -->
+    <div class="qnk-item">
+      <div class="qnk-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
+        </svg>
+      </div>
+      <span class="qnk-h3">Fernwärme</span>
+      <p class="qnk-p">Kein Heizkessel, keine Wartung. Fernwärme versorgt jede Einheit — effizient, zuverlässig, zukunftssicher.</p>
+    </div>
+
+    <!-- KfW40 -->
+    <div class="qnk-item">
+      <div class="qnk-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+        </svg>
+      </div>
+      <span class="qnk-h3">KfW40 Standard</span>
+      <p class="qnk-p">Der KfW40-Standard öffnet staatliche Förderprogramme und senkt die Nebenkosten — heute und in zwanzig Jahren.</p>
+    </div>
+
+    <!-- Holzbauweise -->
+    <div class="qnk-item">
+      <div class="qnk-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
+        </svg>
+      </div>
+      <span class="qnk-h3">Holzbauweise</span>
+      <p class="qnk-p">Natürlich, nachhaltig — und mit einem Raumklima, das sich sofort anders anfühlt. Für die Eigentumswohnungen in zertifizierter Holzbauweise.</p>
+    </div>
+
+  </div>
+  </div>
+</div>
+
+</body>
+</html>

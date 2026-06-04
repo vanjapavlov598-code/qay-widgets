@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QaY Hub-Karten — Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ════════════════════════════════════════════
+   EDITOR UI
+════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #F7F5F1; display: flex; height: 100vh; overflow: hidden; }
+
+.preview { flex: 1; overflow-y: auto; padding: 48px 40px; display: flex; align-items: flex-start; justify-content: center; }
+.sidebar { width: 340px; flex-shrink: 0; background: #1B3040; overflow-y: auto; display: flex; flex-direction: column; }
+
+/* sidebar header */
+.sb-top { padding: 22px 22px 18px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.sb-top h1 { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; color: #fff; margin-bottom: 3px; }
+.sb-top p  { font-size: 11px; color: rgba(255,255,255,.35); }
+
+/* tabs */
+.tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,.08); flex-shrink: 0; }
+.tab  { flex: 1; padding: 13px 0; text-align: center; font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.35); cursor: pointer; border-bottom: 2px solid transparent; transition: color .2s, border-color .2s; }
+.tab.active { color: #B5A07A; border-bottom-color: #B5A07A; }
+
+/* panels */
+.panel { display: none; padding: 20px 22px 28px; flex: 1; }
+.panel.active { display: block; }
+
+/* fields */
+.field { margin-bottom: 17px; }
+.field label { display: block; font-size: 10px; letter-spacing: .11em; text-transform: uppercase; color: rgba(255,255,255,.38); margin-bottom: 6px; }
+.field input, .field textarea {
+  width: 100%; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+  color: #fff; font-family: 'Inter', sans-serif; font-size: 13px;
+  padding: 9px 11px; border-radius: 4px; outline: none; resize: none; transition: border-color .2s;
+}
+.field input:focus, .field textarea:focus { border-color: #B5A07A; }
+.field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,.18); }
+.field textarea { min-height: 66px; line-height: 1.5; }
+
+.sep { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #B5A07A; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,.08); margin: 20px 0 14px; }
+
+/* image picker */
+.img-preview { width: 100%; height: 110px; object-fit: cover; border-radius: 4px; display: block; margin-bottom: 8px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04); }
+.img-row { display: flex; gap: 7px; }
+.img-row input { flex: 1; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 12px; padding: 8px 10px; border-radius: 4px; outline: none; }
+.img-row input:focus { border-color: #B5A07A; }
+.btn-file { padding: 8px 12px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.5); font-size: 11px; cursor: pointer; border-radius: 4px; white-space: nowrap; transition: background .2s; }
+.btn-file:hover { background: rgba(255,255,255,.13); color: #fff; }
+
+/* export buttons */
+.btn-save { width: 100%; margin-top: 6px; padding: 13px; background: #B5A07A; color: #fff; border: none; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: opacity .2s; }
+.btn-save:hover { opacity: .85; }
+.btn-dl   { width: 100%; margin-top: 8px; padding: 12px; background: transparent; color: rgba(255,255,255,.45); border: 1px solid rgba(255,255,255,.12); font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: border-color .2s, color .2s; }
+.btn-dl:hover { border-color: rgba(255,255,255,.35); color: rgba(255,255,255,.75); }
+.code-out { width: 100%; height: 220px; background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.07); color: rgba(255,255,255,.5); font-family: monospace; font-size: 10px; padding: 10px; border-radius: 4px; resize: none; outline: none; line-height: 1.5; margin-top: 14px; }
+
+.toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); background: #1B3040; color: #fff; padding: 9px 22px; border-radius: 20px; font-size: 13px; font-weight: 500; box-shadow: 0 4px 14px rgba(0,0,0,.3); pointer-events: none; opacity: 0; transition: opacity .3s; z-index: 9999; }
+.toast.show { opacity: 1; }
+
+/* save bar */
+.save-bar { display: flex; align-items: center; gap: 8px; padding: 10px 22px; background: rgba(0,0,0,.2); border-bottom: 1px solid rgba(255,255,255,.08); flex-shrink: 0; }
+.btn-state { flex: 1; padding: 9px; background: #B5A07A; color: #fff; border: none; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: opacity .2s; }
+.btn-state:hover { opacity: .85; }
+.btn-reset { padding: 9px 12px; background: transparent; color: rgba(255,255,255,.3); border: 1px solid rgba(255,255,255,.1); font-family: 'Inter', sans-serif; font-size: 11px; cursor: pointer; border-radius: 4px; transition: color .2s, border-color .2s; white-space: nowrap; }
+.btn-reset:hover { color: rgba(255,255,255,.6); border-color: rgba(255,255,255,.25); }
+.save-ts { font-size: 10px; color: rgba(255,255,255,.3); text-align: right; padding: 0 22px 8px; letter-spacing: .03em; }
+
+/* active card highlight */
+.qay-card.active-edit { outline: 2px solid #B5A07A !important; outline-offset: 4px; }
+
+
+/* ════════════════════════════════════════════
+   KARTEN — Wix-kompatible isolierte Stile
+   Präfix .qay schützt vor Wix-Übersteuerung
+════════════════════════════════════════════ */
+.qay * { box-sizing: border-box !important; }
+.qay { font-family: 'Inter', sans-serif !important; -webkit-font-smoothing: antialiased !important; width: 100%; }
+.qay-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 28px !important; max-width: 1080px !important; margin: 0 auto !important; }
+@media (max-width: 760px) { .qay-grid { grid-template-columns: 1fr !important; } }
+
+.qay-card { background: #ffffff !important; overflow: hidden !important; box-shadow: 0 4px 32px rgba(27,48,64,.08) !important; display: flex !important; flex-direction: column !important; margin: 0 !important; padding: 0 !important; border: none !important; }
+
+.qay-img { height: 280px !important; overflow: hidden !important; position: relative !important; }
+.qay-img img { width: 100% !important; height: 100% !important; object-fit: cover !important; display: block !important; margin: 0 !important; padding: 0 !important; border: none !important; transition: transform .55s ease !important; }
+.qay-card:hover .qay-img img { transform: scale(1.04) !important; }
+
+.qay-badge {
+  position: absolute !important; top: 18px !important; left: 18px !important; margin: 0 !important;
+  background: #1B3040 !important; color: #fff !important;
+  font-family: 'Inter', sans-serif !important; font-size: 10px !important;
+  letter-spacing: .16em !important; text-transform: uppercase !important;
+  padding: 5px 14px !important; font-weight: 500 !important; line-height: 1.4 !important;
+}
+.qay-body { padding: 34px 34px 38px !important; display: flex !important; flex-direction: column !important; flex: 1 !important; margin: 0 !important; }
+
+.qay-h3 {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 27px !important; font-weight: 400 !important;
+  color: #1B3040 !important; line-height: 1.2 !important;
+  margin: 0 0 8px 0 !important; padding: 0 !important; display: block !important;
+  border: none !important;
+}
+.qay-price {
+  font-family: 'Inter', sans-serif !important; font-size: 13px !important;
+  font-weight: 500 !important; letter-spacing: .08em !important;
+  color: #B5A07A !important; margin: 0 0 20px 0 !important; padding: 0 !important;
+  display: block !important; text-transform: uppercase !important;
+}
+.qay-line { width: 36px !important; height: 1px !important; background: #E2DDD6 !important; margin: 0 0 20px 0 !important; display: block !important; border: none !important; padding: 0 !important; }
+.qay-desc {
+  font-family: 'Inter', sans-serif !important; font-size: 14px !important;
+  line-height: 1.72 !important; color: #6B6B6B !important; font-weight: 300 !important;
+  margin: 0 0 24px 0 !important; padding: 0 !important; display: block !important;
+}
+.qay-ul { list-style: none !important; margin: 0 0 30px 0 !important; padding: 0 !important; }
+.qay-ul li {
+  display: flex !important; align-items: flex-start !important; gap: 10px !important;
+  font-family: 'Inter', sans-serif !important; font-size: 13.5px !important;
+  color: #2A2A2A !important; line-height: 1.45 !important;
+  margin: 0 0 10px 0 !important; padding: 0 !important; border: none !important;
+}
+.qay-ul li svg {
+  flex-shrink: 0 !important; display: block !important;
+  width: 17px !important; height: 17px !important;
+  min-width: 17px !important; max-width: 17px !important;
+  min-height: 17px !important; max-height: 17px !important;
+  margin: 1px 0 0 0 !important; padding: 0 !important;
+}
+.qay-btn {
+  display: block !important; width: 100% !important; padding: 15px 20px !important;
+  font-family: 'Inter', sans-serif !important; font-size: 12px !important;
+  font-weight: 500 !important; letter-spacing: .14em !important;
+  text-transform: uppercase !important; text-align: center !important;
+  text-decoration: none !important; cursor: pointer !important;
+  transition: background .2s, color .2s !important;
+  line-height: 1.4 !important; margin-top: auto !important; border-radius: 0 !important;
+}
+.qay-solid  { background: #1B3040 !important; color: #fff !important; border: none !important; }
+.qay-solid:hover  { background: #243D52 !important; }
+.qay-border { background: transparent !important; color: #1B3040 !important; border: 1.5px solid #1B3040 !important; }
+.qay-border:hover { background: #1B3040 !important; color: #fff !important; }
+
+</style>
+</head>
+<body>
+
+<!-- ════ VORSCHAU ════ -->
+<div class="preview">
+  <div class="qay" style="width:100%;max-width:1080px;">
+    <div class="qay-grid">
+
+      <!-- KARTE 1 -->
+      <div class="qay-card active-edit" id="card1">
+        <div class="qay-img">
+          <img id="img1" src="file:///C:/Users/vanja/Desktop/visualisierung-qay-webp/Quadratisch/quartier-am-yachthafen-apartment-visualisierung-ostsee-q-01.webp" alt="">
+          <span class="qay-badge" id="badge1">Kapitalanlage</span>
+        </div>
+        <div class="qay-body">
+          <span class="qay-h3"  id="h1"></span>
+          <span class="qay-price" id="price1"></span>
+          <span class="qay-line"></span>
+          <span class="qay-desc"  id="desc1"></span>
+          <ul class="qay-ul" id="ul1">
+            <li id="li1_svg1"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/><path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="c1a"></span></li>
+            <li id="li1_svg2"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/><path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="c1b"></span></li>
+            <li id="li1_svg3"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/><path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="c1c"></span></li>
+          </ul>
+          <a class="qay-btn qay-solid" id="btn1" href="#">laden…</a>
+        </div>
+      </div>
+
+      <!-- KARTE 2 -->
+      <div class="qay-card" id="card2">
+        <div class="qay-img">
+          <img id="img2" src="file:///C:/Users/vanja/Desktop/visualisierung-qay-webp/Quadratisch/quartier-am-yachthafen-luxus-eigentumswohnung-visualisierung-q-01.webp" alt="">
+          <span class="qay-badge" id="badge2">Eigennutzung</span>
+        </div>
+        <div class="qay-body">
+          <span class="qay-h3"  id="h2"></span>
+          <span class="qay-price" id="price2"></span>
+          <span class="qay-line"></span>
+          <span class="qay-desc"  id="desc2"></span>
+          <ul class="qay-ul" id="ul2">
+            <li><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/><path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="c2a"></span></li>
+            <li><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/><path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="c2b"></span></li>
+            <li><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/><path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="c2c"></span></li>
+          </ul>
+          <a class="qay-btn qay-border" id="btn2" href="#">laden…</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════ SIDEBAR ════ -->
+<div class="sidebar">
+  <div class="sb-top">
+    <h1>Hub-Karten Editor</h1>
+    <p>Quartier am Yachthafen</p>
+  </div>
+
+  <div class="save-bar">
+    <button class="btn-state" onclick="saveState()">💾 Speichern</button>
+    <button class="btn-reset" onclick="resetState()">Zurücksetzen</button>
+  </div>
+  <div class="save-ts" id="saveTs"></div>
+
+  <div class="tabs">
+    <div class="tab active" data-panel="p1" onclick="tab(this)">Karte 1</div>
+    <div class="tab"        data-panel="p2" onclick="tab(this)">Karte 2</div>
+    <div class="tab"        data-panel="px" onclick="tab(this)">Export</div>
+  </div>
+
+  <!-- ── Karte 1 ── -->
+  <div class="panel active" id="p1">
+    <div class="field"><label>Foto</label>
+      <img class="img-preview" id="pv1" src="file:///C:/Users/vanja/Desktop/visualisierung-qay-webp/Quadratisch/quartier-am-yachthafen-apartment-visualisierung-ostsee-q-01.webp">
+      <div class="img-row">
+        <input id="u1" type="text" placeholder="URL oder Pfad" oninput="setImg(1,this.value)">
+        <label class="btn-file">Datei<input type="file" accept="image/*" style="display:none" onchange="loadFile(1,this)"></label>
+      </div>
+    </div>
+    <div class="sep">Text</div>
+    <div class="field"><label>Badge</label><input id="f_badge1" oninput="sync('badge1',this.value)"></div>
+    <div class="field"><label>Überschrift</label><textarea id="f_h1" oninput="syncBr('h1',this.value)"></textarea></div>
+    <div class="field"><label>Preis-Zeile</label><input id="f_price1" oninput="sync('price1',this.value)"></div>
+    <div class="field"><label>Beschreibung</label><textarea id="f_desc1" oninput="sync('desc1',this.value)"></textarea></div>
+    <div class="sep">Checkliste</div>
+    <div class="field"><label>Punkt 1</label><input id="f_c1a" oninput="sync('c1a',this.value)"></div>
+    <div class="field"><label>Punkt 2</label><input id="f_c1b" oninput="sync('c1b',this.value)"></div>
+    <div class="field"><label>Punkt 3</label><input id="f_c1c" oninput="sync('c1c',this.value)"></div>
+    <div class="sep">Button</div>
+    <div class="field"><label>Button-Text</label><input id="f_bt1" oninput="document.getElementById('btn1').textContent=this.value"></div>
+    <div class="field"><label>Button-URL</label><input id="f_bu1" placeholder="https://..." oninput="document.getElementById('btn1').href=this.value||'#'"></div>
+  </div>
+
+  <!-- ── Karte 2 ── -->
+  <div class="panel" id="p2">
+    <div class="field"><label>Foto</label>
+      <img class="img-preview" id="pv2" src="file:///C:/Users/vanja/Desktop/visualisierung-qay-webp/Quadratisch/quartier-am-yachthafen-luxus-eigentumswohnung-visualisierung-q-01.webp">
+      <div class="img-row">
+        <input id="u2" type="text" placeholder="URL oder Pfad" oninput="setImg(2,this.value)">
+        <label class="btn-file">Datei<input type="file" accept="image/*" style="display:none" onchange="loadFile(2,this)"></label>
+      </div>
+    </div>
+    <div class="sep">Text</div>
+    <div class="field"><label>Badge</label><input id="f_badge2" oninput="sync('badge2',this.value)"></div>
+    <div class="field"><label>Überschrift</label><textarea id="f_h2" oninput="syncBr('h2',this.value)"></textarea></div>
+    <div class="field"><label>Preis-Zeile</label><input id="f_price2" oninput="sync('price2',this.value)"></div>
+    <div class="field"><label>Beschreibung</label><textarea id="f_desc2" oninput="sync('desc2',this.value)"></textarea></div>
+    <div class="sep">Checkliste</div>
+    <div class="field"><label>Punkt 1</label><input id="f_c2a" oninput="sync('c2a',this.value)"></div>
+    <div class="field"><label>Punkt 2</label><input id="f_c2b" oninput="sync('c2b',this.value)"></div>
+    <div class="field"><label>Punkt 3</label><input id="f_c2c" oninput="sync('c2c',this.value)"></div>
+    <div class="sep">Button</div>
+    <div class="field"><label>Button-Text</label><input id="f_bt2" oninput="document.getElementById('btn2').textContent=this.value"></div>
+    <div class="field"><label>Button-URL</label><input id="f_bu2" placeholder="https://..." oninput="document.getElementById('btn2').href=this.value||'#'"></div>
+  </div>
+
+  <!-- ── Export ── -->
+  <div class="panel" id="px">
+    <p style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.65;margin-bottom:16px;">Wix → Seite bearbeiten → + Hinzufügen → Einbetten → HTML-Code einfügen</p>
+    <button class="btn-save" onclick="copyWix()">Code für Wix kopieren</button>
+    <button class="btn-dl"   onclick="dlHTML()">Als HTML speichern</button>
+    <textarea class="code-out" id="codeOut" readonly></textarea>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Startwerte ──
+var DATA = {
+  badge1:'Kapitalanlage',
+  h1:'Kaufen. Vermieten.\nEntspannen.',
+  price1:'Ab 348.800 € · Ferienwohnung',
+  desc1:'47 vollmöblierte Apartments direkt am Yachthafen — ab dem ersten Tag vermietungsbereit. RELAMARE übernimmt die Verwaltung. Sie erhalten die Rendite: ab 5 % p.a., mit steuerlichen Vorteilen inklusive.',
+  c1a:'Rendite ab 5 % p.a. — passives Einkommen',
+  c1b:'Vollmöbliert & sofort vermietungsbereit',
+  c1c:'Fernwärme · KfW40 · steuerliche AfA-Vorteile',
+  bt1:'Exposé Kapitalanlage anfordern →',
+  bu1:'',
+  badge2:'Eigennutzung',
+  h2:'Endlich zu Hause —\ndirekt am Wasser.',
+  price2:'Ab 289.900 € · Eigentumswohnung',
+  desc2:'55 Eigentumswohnungen in nachhaltiger Holzbauweise — ausschließlich als Erstwohnsitz. Kein Ferienlärm, kein Zweitwohnsitz. Nur Ihr Zuhause in Neustadt in Holstein, direkt am Wasser.',
+  c2a:'Ausschließlich Erstwohnsitz — kein Zweitwohnsitz',
+  c2b:'Holzbauweise · KfW40 · Förderung möglich',
+  c2c:'Fertigstellung Q4 2028 · Baufeld 1 & 2',
+  bt2:'Exposé Eigentumswohnung anfordern →',
+  bu2:'',
+  img1:'file:///C:/Users/vanja/Desktop/visualisierung-qay-webp/Quadratisch/quartier-am-yachthafen-apartment-visualisierung-ostsee-q-01.webp',
+  img2:'file:///C:/Users/vanja/Desktop/visualisierung-qay-webp/Quadratisch/quartier-am-yachthafen-luxus-eigentumswohnung-visualisierung-q-01.webp'
+};
+
+function sync(id,val){ var el=document.getElementById(id); if(el) el.textContent=val; }
+function syncBr(id,val){ var el=document.getElementById(id); if(el) el.innerHTML=val.replace(/\n/g,'<br>'); }
+function setImg(n,src){
+  document.getElementById('img'+n).src=src;
+  document.getElementById('pv'+n).src=src;
+  DATA['img'+n]=src;
+}
+function loadFile(n,inp){
+  var f=inp.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(e){ setImg(n,e.target.result); document.getElementById('u'+n).value=f.name; };
+  r.readAsDataURL(f);
+}
+function tab(el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById(el.dataset.panel).classList.add('active');
+  document.querySelectorAll('.qay-card').forEach(function(c){c.classList.remove('active-edit');});
+  if(el.dataset.panel==='p1') document.getElementById('card1').classList.add('active-edit');
+  if(el.dataset.panel==='p2') document.getElementById('card2').classList.add('active-edit');
+  if(el.dataset.panel==='px') buildCode();
+}
+
+// Felder befüllen
+function fillFields(){
+  Object.keys(DATA).forEach(function(k){
+    var el=document.getElementById('f_'+k); if(el) el.value=DATA[k];
+  });
+}
+
+// Vorschau initial rendern
+function renderAll(){
+  sync('badge1',DATA.badge1); syncBr('h1',DATA.h1); sync('price1',DATA.price1);
+  sync('desc1',DATA.desc1); sync('c1a',DATA.c1a); sync('c1b',DATA.c1b); sync('c1c',DATA.c1c);
+  document.getElementById('btn1').textContent=DATA.bt1;
+  sync('badge2',DATA.badge2); syncBr('h2',DATA.h2); sync('price2',DATA.price2);
+  sync('desc2',DATA.desc2); sync('c2a',DATA.c2a); sync('c2b',DATA.c2b); sync('c2c',DATA.c2c);
+  document.getElementById('btn2').textContent=DATA.bt2;
+}
+
+// ── Wix-Code generieren ──
+var SVG='<svg width="17" height="17" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:17px;height:17px;min-width:17px;min-height:17px;display:block;margin:1px 0 0 0"><circle cx="9" cy="9" r="8.25" stroke="#B5A07A" stroke-width="1.1"/><path d="M5.5 9l2.5 2.5 4.5-4.5" stroke="#B5A07A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function br(s) { return esc(s).replace(/\n/g,'<br>'); }
+function img(n) { return document.getElementById('img'+n).src; }
+function btnHref(n){ var v=document.getElementById('f_bu'+n).value; return v||'#'; }
+
+function buildCode(){
+  var code = [
+'<style>',
+'@import url(\'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap\');',
+'.qay *{box-sizing:border-box!important;}.qay{font-family:\'Inter\',sans-serif!important;-webkit-font-smoothing:antialiased!important;width:100%}',
+'.qay-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:28px!important;max-width:1080px!important;margin:0 auto!important}',
+'@media(max-width:760px){.qay-grid{grid-template-columns:1fr!important}}',
+'.qay-card{background:#fff!important;overflow:hidden!important;box-shadow:0 4px 32px rgba(27,48,64,.08)!important;display:flex!important;flex-direction:column!important;margin:0!important;padding:0!important;border:none!important}',
+'.qay-img{height:280px!important;overflow:hidden!important;position:relative!important}',
+'.qay-img img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;margin:0!important;border:none!important;transition:transform .55s!important}',
+'.qay-card:hover .qay-img img{transform:scale(1.04)!important}',
+'.qay-badge{position:absolute!important;top:18px!important;left:18px!important;margin:0!important;background:#1B3040!important;color:#fff!important;font-family:\'Inter\',sans-serif!important;font-size:10px!important;letter-spacing:.16em!important;text-transform:uppercase!important;padding:5px 14px!important;font-weight:500!important;line-height:1.4!important}',
+'.qay-body{padding:34px 34px 38px!important;display:flex!important;flex-direction:column!important;flex:1!important;margin:0!important}',
+'.qay-h3{font-family:\'Cormorant Garamond\',serif!important;font-size:27px!important;font-weight:400!important;color:#1B3040!important;line-height:1.2!important;margin:0 0 8px!important;padding:0!important;display:block!important;border:none!important}',
+'.qay-price{font-family:\'Inter\',sans-serif!important;font-size:13px!important;font-weight:500!important;letter-spacing:.08em!important;color:#B5A07A!important;margin:0 0 20px!important;padding:0!important;display:block!important;text-transform:uppercase!important}',
+'.qay-line{width:36px!important;height:1px!important;background:#E2DDD6!important;margin:0 0 20px!important;display:block!important;border:none!important;padding:0!important}',
+'.qay-desc{font-family:\'Inter\',sans-serif!important;font-size:14px!important;line-height:1.72!important;color:#6B6B6B!important;font-weight:300!important;margin:0 0 24px!important;padding:0!important;display:block!important}',
+'.qay-ul{list-style:none!important;margin:0 0 30px!important;padding:0!important}',
+'.qay-ul li{display:flex!important;align-items:flex-start!important;gap:10px!important;font-family:\'Inter\',sans-serif!important;font-size:13.5px!important;color:#2A2A2A!important;line-height:1.45!important;margin:0 0 10px!important;padding:0!important;border:none!important}',
+'.qay-ul li svg{flex-shrink:0!important;display:block!important;width:17px!important;height:17px!important;min-width:17px!important;max-width:17px!important;min-height:17px!important;max-height:17px!important;margin:1px 0 0!important;padding:0!important}',
+'.qay-btn{display:block!important;width:100%!important;padding:15px 20px!important;font-family:\'Inter\',sans-serif!important;font-size:12px!important;font-weight:500!important;letter-spacing:.14em!important;text-transform:uppercase!important;text-align:center!important;text-decoration:none!important;cursor:pointer!important;line-height:1.4!important;margin-top:auto!important;border-radius:0!important}',
+'.qay-solid{background:#1B3040!important;color:#fff!important;border:none!important}',
+'.qay-border{background:transparent!important;color:#1B3040!important;border:1.5px solid #1B3040!important}',
+'</style>',
+'<div class="qay"><div class="qay-grid">',
+
+'<div class="qay-card">',
+'  <div class="qay-img">',
+'    <img src="'+img(1)+'" alt="'+esc(document.getElementById('badge1').textContent)+' Quartier am Yachthafen">',
+'    <span class="qay-badge">'+esc(document.getElementById('badge1').textContent)+'</span>',
+'  </div>',
+'  <div class="qay-body">',
+'    <span class="qay-h3">'+br(document.getElementById('f_h1').value)+'</span>',
+'    <span class="qay-price">'+esc(document.getElementById('f_price1').value)+'</span>',
+'    <span class="qay-line"></span>',
+'    <span class="qay-desc">'+esc(document.getElementById('f_desc1').value)+'</span>',
+'    <ul class="qay-ul">',
+'      <li>'+SVG+esc(document.getElementById('f_c1a').value)+'</li>',
+'      <li>'+SVG+esc(document.getElementById('f_c1b').value)+'</li>',
+'      <li>'+SVG+esc(document.getElementById('f_c1c').value)+'</li>',
+'    </ul>',
+'    <a class="qay-btn qay-solid" href="'+btnHref(1)+'">'+esc(document.getElementById('f_bt1').value)+'</a>',
+'  </div>',
+'</div>',
+
+'<div class="qay-card">',
+'  <div class="qay-img">',
+'    <img src="'+img(2)+'" alt="'+esc(document.getElementById('badge2').textContent)+' Quartier am Yachthafen">',
+'    <span class="qay-badge">'+esc(document.getElementById('badge2').textContent)+'</span>',
+'  </div>',
+'  <div class="qay-body">',
+'    <span class="qay-h3">'+br(document.getElementById('f_h2').value)+'</span>',
+'    <span class="qay-price">'+esc(document.getElementById('f_price2').value)+'</span>',
+'    <span class="qay-line"></span>',
+'    <span class="qay-desc">'+esc(document.getElementById('f_desc2').value)+'</span>',
+'    <ul class="qay-ul">',
+'      <li>'+SVG+esc(document.getElementById('f_c2a').value)+'</li>',
+'      <li>'+SVG+esc(document.getElementById('f_c2b').value)+'</li>',
+'      <li>'+SVG+esc(document.getElementById('f_c2c').value)+'</li>',
+'    </ul>',
+'    <a class="qay-btn qay-border" href="'+btnHref(2)+'">'+esc(document.getElementById('f_bt2').value)+'</a>',
+'  </div>',
+'</div>',
+
+'</div></div>'
+  ].join('\n');
+
+  document.getElementById('codeOut').value=code;
+  return code;
+}
+
+function copyWix(){
+  var code=buildCode();
+  var ta=document.getElementById('codeOut');
+  ta.select(); document.execCommand('copy');
+  toast('Code kopiert! In Wix einfügen →');
+}
+function dlHTML(){
+  var code=buildCode();
+  var blob=new Blob([code],{type:'text/html;charset=utf-8'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='qay-hub-karten-wix.html'; a.click();
+}
+function toast(msg){
+  var t=document.getElementById('toast'); t.textContent=msg;
+  t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},2500);
+}
+
+// ── LocalStorage Schlüssel ──
+var LS_KEY = 'qay-hub-karten-v1';
+
+// Alle Felder auslesen → Objekt
+function collectFields() {
+  var keys = ['badge1','h1','price1','desc1','c1a','c1b','c1c','bt1','bu1',
+              'badge2','h2','price2','desc2','c2a','c2b','c2c','bt2','bu2',
+              'u1','u2'];
+  var state = {};
+  keys.forEach(function(k) {
+    var el = document.getElementById('f_'+k) || document.getElementById(k);
+    if (el) state[k] = el.value;
+  });
+  // Bilder separat (können DataURLs sein)
+  state._img1 = document.getElementById('img1').src;
+  state._img2 = document.getElementById('img2').src;
+  return state;
+}
+
+// Zustand speichern
+function saveState() {
+  var state = collectFields();
+  state._savedAt = new Date().toISOString();
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  var ts = new Date().toLocaleTimeString('de-DE', {hour:'2-digit', minute:'2-digit'});
+  document.getElementById('saveTs').textContent = 'Gespeichert ' + ts;
+  toast('Gespeichert ✓');
+}
+
+// Gespeicherten Zustand laden
+function loadState() {
+  var raw = localStorage.getItem(LS_KEY);
+  if (!raw) return false;
+  try {
+    var state = JSON.parse(raw);
+    // DATA-Objekt überschreiben
+    var map = {
+      badge1:'badge1', h1:'h1', price1:'price1', desc1:'desc1',
+      c1a:'c1a', c1b:'c1b', c1c:'c1c', bt1:'bt1', bu1:'bu1',
+      badge2:'badge2', h2:'h2', price2:'price2', desc2:'desc2',
+      c2a:'c2a', c2b:'c2b', c2c:'c2c', bt2:'bt2', bu2:'bu2'
+    };
+    Object.keys(map).forEach(function(k) {
+      if (state[k] !== undefined) DATA[k] = state[k];
+    });
+    if (state._img1) DATA.img1 = state._img1;
+    if (state._img2) DATA.img2 = state._img2;
+    // Timestamp anzeigen
+    if (state._savedAt) {
+      var d = new Date(state._savedAt);
+      var ts = d.toLocaleDateString('de-DE', {day:'2-digit',month:'2-digit'}) + ' ' +
+               d.toLocaleTimeString('de-DE', {hour:'2-digit',minute:'2-digit'});
+      document.getElementById('saveTs').textContent = 'Zuletzt gespeichert ' + ts;
+    }
+    return true;
+  } catch(e) { return false; }
+}
+
+// Auf Standard zurücksetzen
+function resetState() {
+  if (!confirm('Alle Änderungen löschen und auf Standard zurücksetzen?')) return;
+  localStorage.removeItem(LS_KEY);
+  document.getElementById('saveTs').textContent = '';
+  location.reload();
+}
+
+// ── Init ──
+// 1. Gespeicherten Zustand laden (falls vorhanden)
+loadState();
+// 2. Bilder setzen
+setImg(1, DATA.img1);
+setImg(2, DATA.img2);
+// 3. Vorschau rendern
+renderAll();
+// 4. Felder befüllen
+fillFields();
+</script>
+</body>
+</html>
