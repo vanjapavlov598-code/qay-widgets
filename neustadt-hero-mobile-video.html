@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>QaY Hero Mobile</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#1B3040}
+
+.hero{
+  position:relative;
+  width:100%;height:100svh;
+  min-height:560px;
+  overflow:hidden;
+  display:flex;align-items:flex-end;justify-content:center;
+}
+
+/* ── Fallback photo (показывается всегда как фон) ── */
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('https://static.wixstatic.com/media/09cf10_021a0edf997e4c1e804e552c45134917~mv2.webp')
+    center/cover no-repeat;
+  z-index:0;
+  animation:bgFade 1.2s ease forwards;
+}
+
+/* ── Видео поверх фото ── */
+.hero video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  z-index:1;
+  opacity:0;
+  transition:opacity 1s ease;
+}
+.hero video.loaded{opacity:1}
+
+/* ── Градиент ── */
+.hero-overlay{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(
+    0deg,
+    rgba(18,35,47,.85) 0%,
+    rgba(18,35,47,.4) 45%,
+    rgba(18,35,47,.15) 100%
+  );
+}
+
+/* ── Контент ── */
+.hero-content{
+  position:relative;z-index:3;
+  width:100%;padding:0 24px 64px;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Золотая линия */
+.hero-line{
+  width:0;height:1px;background:var(--gold,#B5A07A);
+  margin-bottom:18px;
+  animation:lineGrow .8s .4s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+.hero-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:9px;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,.65);font-weight:400;
+  display:block;margin-bottom:12px;
+  opacity:0;transform:translateY(12px);
+  animation:fadeUp .7s .6s ease forwards;
+}
+
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px;font-weight:300;line-height:1;
+  color:#fff;margin-bottom:14px;
+  font-style:italic;
+  opacity:0;transform:translateY(16px);
+  animation:fadeUp .8s .8s ease forwards;
+}
+
+.hero-sub{
+  font-family:'Inter',sans-serif;
+  font-size:12.5px;font-weight:300;
+  color:rgba(255,255,255,.7);
+  line-height:1.65;margin-bottom:28px;
+  max-width:300px;
+  opacity:0;transform:translateY(12px);
+  animation:fadeUp .7s 1s ease forwards;
+}
+
+/* Кнопки */
+.hero-btns{
+  display:flex;flex-direction:column;gap:10px;
+  opacity:0;transform:translateY(10px);
+  animation:fadeUp .7s 1.2s ease forwards;
+}
+.btn-primary{
+  display:block;width:100%;max-width:280px;
+  padding:15px 24px;text-align:center;
+  background:#B5A07A;color:#fff;
+  font-family:'Inter',sans-serif;font-size:11px;font-weight:400;
+  letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;
+  position:relative;overflow:hidden;
+}
+.btn-primary::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(255,255,255,.12);
+  transform:translateX(-100%);
+  transition:transform .4s ease;
+}
+.btn-primary:active::after{transform:translateX(0)}
+
+.btn-secondary{
+  display:block;width:100%;max-width:280px;
+  padding:14px 24px;text-align:center;
+  background:transparent;color:rgba(255,255,255,.8);
+  font-family:'Inter',sans-serif;font-size:11px;font-weight:400;
+  letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.4);
+}
+
+/* Scroll indicator */
+.scroll-hint{
+  position:absolute;bottom:20px;right:24px;z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:0;animation:fadeIn 1s 1.6s ease forwards;
+}
+.scroll-hint span{
+  font-family:'Inter',sans-serif;
+  font-size:8px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);writing-mode:vertical-rl;
+}
+.scroll-line{
+  width:1px;height:32px;
+  background:linear-gradient(180deg,rgba(255,255,255,.4),transparent);
+  animation:scrollPulse 2s 2s infinite;
+}
+
+/* Точки слайдера (для будущего) */
+.hero-dots{
+  position:absolute;bottom:24px;left:24px;z-index:3;
+  display:flex;gap:5px;
+  opacity:0;animation:fadeIn 1s 1.8s ease forwards;
+}
+.dot{
+  width:4px;height:4px;border-radius:50%;
+  background:rgba(255,255,255,.3);
+  transition:background .3s,transform .3s;
+}
+.dot.active{background:#B5A07A;transform:scale(1.4)}
+
+/* ── Анимации ── */
+@keyframes bgFade{from{opacity:0}to{opacity:1}}
+@keyframes lineGrow{from{width:0}to{width:40px}}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:.8}}
+</style>
+</head>
+<body>
+
+<div class="hero" id="hero">
+
+  <!-- Фото-фон (fallback для медленного интернета) -->
+  <div class="hero-bg"></div>
+
+  <!-- Видео поверх (загружается после фото) -->
+  <video
+    autoplay muted loop playsinline
+    preload="none"
+    id="heroVideo"
+  >
+    <source src="https://video.wixstatic.com/video/09cf10_e732aa9ce68c4c35866fd3812bb93b9f/1080p/mp4/file.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-line"></div>
+    <span class="hero-eyebrow">Neustadt in Holstein · Lübecker Bucht</span>
+    <h1>Quartier am<br>Yachthafen</h1>
+    <p class="hero-sub">Ferienwohnung als Kapitalanlage oder Eigentumswohnung — direkt am größten Yachthafen der Lübecker Bucht.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary">Als Kapitalanlage</a>
+      <a href="#" class="btn-secondary">Zum Eigennutz</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+
+  <div class="hero-dots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+</div>
+
+<script>
+// Видео появляется плавно когда загрузилось
+var vid = document.getElementById('heroVideo');
+
+// Начинаем загрузку видео через 800ms (после анимаций)
+setTimeout(function() {
+  vid.load();
+  vid.addEventListener('canplay', function() {
+    vid.classList.add('loaded');
+    vid.play().catch(function(){});
+  });
+}, 800);
+
+// Если видео не загрузилось за 4 секунды — остаёмся на фото
+var timeout = setTimeout(function() {
+  // Фото уже показано — ничего не делаем
+}, 4000);
+
+vid.addEventListener('canplay', function() {
+  clearTimeout(timeout);
+});
+</script>
+</body>
+</html>
