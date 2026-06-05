@@ -25,7 +25,7 @@ class QayWidget extends HTMLElement {
       seoDiv.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap';
 
       // Extract H1, H2, paragraphs for SEO
-      ['h1','h2','p'].forEach(tag => {
+      ['h1','h2','h3','p'].forEach(tag => {
         doc.querySelectorAll(tag).forEach(el => {
           const clone = document.createElement(tag);
           clone.textContent = el.textContent;
