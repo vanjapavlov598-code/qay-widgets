@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quartier am Yachthafen Neustadt – Ferienwohnung &amp; Eigentumswohnung | CH2 AG</title>
+  <meta name="description" content="Ferienwohnungen ab 348.800 € und Eigentumswohnungen ab 289.900 € am Yachthafen Neustadt in Holstein. KfW40, Fernwärme, Fertigstellung Q4 2028.">
+  <link rel="canonical" href="https://nexus-wilmersdorf.de/">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:  #1B3040;
+      --navy2: #243D52;
+      --gold:  #B5A07A;
+      --warm:  #F7F5F1;
+      --line:  #E2DDD6;
+      --muted: #6B6B6B;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #fff; -webkit-font-smoothing: antialiased; }
+
+    /* ── HEADER ── */
+    header {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 60px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo-mark {
+      width: 38px; height: 38px;
+      background: var(--navy); border-radius: 50%;
+      color: #fff; font-size: 11px; font-weight: 600; letter-spacing: .04em;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text { display: flex; flex-direction: column; }
+    .logo-name { font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--navy); line-height: 1.2; }
+    .logo-sub  { font-size: 10px; letter-spacing: .08em; color: var(--muted); }
+
+    nav.main-nav { display: flex; gap: 28px; align-items: center; }
+    nav.main-nav a {
+      font-size: 11px; letter-spacing: .09em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color .2s;
+      white-space: nowrap;
+    }
+    nav.main-nav a:hover { color: var(--navy); }
+    nav.main-nav a.cta {
+      padding: 10px 22px;
+      background: var(--navy); color: #fff;
+      transition: background .2s;
+    }
+    nav.main-nav a.cta:hover { background: var(--gold); }
+
+    /* hamburger */
+    .burger { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+    .burger span { display: block; width: 22px; height: 1.5px; background: var(--navy); transition: .25s; }
+
+    /* mobile nav overlay */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 72px 0 0;
+      background: #fff;
+      z-index: 999;
+      flex-direction: column;
+      padding: 32px 24px;
+      gap: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--navy); text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .mobile-nav a.cta { background: var(--navy); color: #fff; text-align: center; padding: 14px; border: none; margin-top: 8px; }
+
+    /* ── SECTIONS ── */
+    .sec-wrap { display: block; }
+    .sec-wrap iframe.sec-frame {
+      display: block;
+      width: 100%;
+      border: none;
+      overflow: hidden;
+    }
+    /* Hero is always full viewport height */
+    .sec-wrap.hero iframe { height: 100vh; min-height: 600px; }
+
+    /* ── CONTACT FORM ── */
+    .contact-sec {
+      padding: 96px 60px;
+      background: var(--warm);
+    }
+    .contact-inner { max-width: 760px; margin: 0 auto; }
+    .eyebrow {
+      display: block;
+      font-size: 11px; letter-spacing: .24em; text-transform: uppercase;
+      color: var(--gold); font-weight: 500;
+      text-align: center; margin-bottom: 14px;
+    }
+    .sec-h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px; font-weight: 300;
+      color: var(--navy); text-align: center;
+      margin-bottom: 14px; line-height: 1.15;
+    }
+    .sec-sub {
+      font-size: 14px; color: var(--muted);
+      text-align: center; line-height: 1.75;
+      max-width: 500px; margin: 0 auto 52px;
+    }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .fg { display: flex; flex-direction: column; gap: 8px; }
+    .fg.full { grid-column: 1 / -1; }
+    .fg label {
+      font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--muted); font-weight: 500;
+    }
+    .fg input,
+    .fg select,
+    .fg textarea {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 13px 16px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: #2A2A2A;
+      outline: none;
+      border-radius: 0;
+      -webkit-appearance: none;
+      transition: border-color .2s;
+    }
+    .fg input:focus,
+    .fg select:focus,
+    .fg textarea:focus { border-color: var(--navy); }
+    .fg textarea { height: 120px; resize: vertical; }
+
+    .radio-row { display: flex; gap: 24px; flex-wrap: wrap; }
+    .rl { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #2A2A2A; cursor: pointer; }
+    .rl input[type="radio"] { accent-color: var(--navy); width: 15px; height: 15px; }
+
+    .form-footer {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .form-note { font-size: 11.5px; color: var(--muted); line-height: 1.55; max-width: 380px; }
+    .form-note a { color: var(--navy); }
+    .btn-submit {
+      padding: 15px 40px;
+      background: var(--navy); color: #fff;
+      font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+      border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .btn-submit:hover { background: var(--gold); }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 56px 0;
+    }
+    .success-icon {
+      width: 56px; height: 56px;
+      border: 1.5px solid var(--gold); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 22px; color: var(--gold);
+    }
+    .form-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 300; color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .form-success p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #12232F;
+      padding: 36px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px; color: rgba(255,255,255,.85); letter-spacing: .05em;
+    }
+    .footer-nav { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-nav a {
+      font-size: 11px; color: rgba(255,255,255,.45);
+      text-decoration: none; letter-spacing: .08em;
+      transition: color .2s;
+    }
+    .footer-nav a:hover { color: rgba(255,255,255,.8); }
+    .footer-copy { font-size: 11px; color: rgba(255,255,255,.25); letter-spacing: .04em; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      header { padding: 0 24px; }
+      nav.main-nav { display: none; }
+      .burger { display: flex; }
+      .contact-sec { padding: 64px 24px; }
+      .form-grid { grid-template-columns: 1fr; }
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <a class="logo" href="#">
+    <div class="logo-mark">CH2</div>
+    <div class="logo-text">
+      <span class="logo-name">Quartier am Yachthafen</span>
+      <span class="logo-sub">Neustadt in Holstein</span>
+    </div>
+  </a>
+
+  <nav class="main-nav">
+    <a href="#projektubersicht">Projektübersicht</a>
+    <a href="#lage">Lage</a>
+    <a href="#wohnungstypen">Wohnungstypen</a>
+    <a href="#qualitat">Qualität &amp; Nachhaltigkeit</a>
+    <a href="#kontakt" class="cta">Kontakt</a>
+  </nav>
+
+  <div class="burger" id="burger" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- Mobile nav -->
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="#projektubersicht">Projektübersicht</a>
+  <a href="#lage">Lage</a>
+  <a href="#wohnungstypen">Wohnungstypen</a>
+  <a href="#qualitat">Qualität &amp; Nachhaltigkeit</a>
+  <a href="#kontakt" class="cta">Kontakt</a>
+</nav>
+
+<!-- ══ 1. HERO ══ -->
+<div id="home" class="sec-wrap hero">
+  <iframe class="sec-frame" src="neustadt-hero-video.html"
+    title="Quartier am Yachthafen" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 2. ECKDATEN ══ -->
+<div id="projektubersicht" class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-eckdaten.html"
+    title="Eckdaten" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 3. PROJEKTÜBERSICHT (Hub-Karten) ══ -->
+<div class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-hub-karten.html"
+    title="Ferienwohnung oder Eigentumswohnung" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 4. FERIENWOHNUNGEN ══ -->
+<div id="wohnungstypen" class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-fw-uberblick.html"
+    title="Ferienwohnungen Überblick" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 5. EIGENTUMSWOHNUNGEN ══ -->
+<div class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-etw-uberblick.html"
+    title="Eigentumswohnungen Überblick" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 6. AUSSTATTUNG ══ -->
+<div id="qualitat" class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-ausstattung.html"
+    title="Qualität &amp; Ausstattung" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 7. NACHHALTIGKEIT ══ -->
+<div class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-nachhaltigkeit.html"
+    title="Nachhaltigkeit" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 8. LAGE ══ -->
+<div id="lage" class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-lage-left.html"
+    title="Lage" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 9. UMGEBUNG ══ -->
+<div class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-umgebung.html"
+    title="Umgebung" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 10. BAUFORTSCHRITT ══ -->
+<div class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-baufortschritt.html"
+    title="Baufortschritt" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 11. PREISE ══ -->
+<div class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-preise.html"
+    title="Preisübersicht" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 12. VIDEO ══ -->
+<div class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-video.html"
+    title="Projektvideo" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 13. FAQ ══ -->
+<div class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-faq.html"
+    title="Häufige Fragen" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 14. CTA ══ -->
+<div class="sec-wrap">
+  <iframe class="sec-frame" src="neustadt-cta.html"
+    title="Jetzt anfragen" scrolling="no"></iframe>
+</div>
+
+<!-- ══ 15. KONTAKTFORMULAR ══ -->
+<section id="kontakt" class="contact-sec">
+  <div class="contact-inner">
+    <span class="eyebrow">Direktanfrage</span>
+    <h2 class="sec-h2">Persönlich beraten lassen</h2>
+    <p class="sec-sub">Unser Team meldet sich innerhalb von 24 Stunden bei Ihnen zurück. Kostenlos und unverbindlich.</p>
+
+    <!--
+      FORMSPREE EINRICHTEN (einmalig, kostenlos):
+      1. Registrieren auf https://formspree.io mit pavlov@ch2-ag.de
+      2. "New Form" erstellen
+      3. Die Form-ID unten eintragen: action="https://formspree.io/f/HIER_ID_EINTRAGEN"
+    -->
+    <form id="contact-form" action="https://formspree.io/f/HIER_ID_EINTRAGEN" method="POST">
+      <input type="hidden" name="_subject" value="Neue Anfrage — Quartier am Yachthafen">
+
+      <div class="form-grid">
+        <div class="fg">
+          <label for="vorname">Vorname *</label>
+          <input type="text" id="vorname" name="vorname" required placeholder="Max">
+        </div>
+        <div class="fg">
+          <label for="nachname">Nachname *</label>
+          <input type="text" id="nachname" name="nachname" required placeholder="Mustermann">
+        </div>
+        <div class="fg">
+          <label for="email">E-Mail-Adresse *</label>
+          <input type="email" id="email" name="email" required placeholder="max@beispiel.de">
+        </div>
+        <div class="fg">
+          <label for="telefon">Telefon</label>
+          <input type="tel" id="telefon" name="telefon" placeholder="+49 40 123 456">
+        </div>
+        <div class="fg full">
+          <label>Interesse an</label>
+          <div class="radio-row">
+            <label class="rl">
+              <input type="radio" name="interesse" value="Ferienwohnung (Kapitalanlage)" checked>
+              Ferienwohnung
+            </label>
+            <label class="rl">
+              <input type="radio" name="interesse" value="Eigentumswohnung (Eigennutz)">
+              Eigentumswohnung
+            </label>
+            <label class="rl">
+              <input type="radio" name="interesse" value="Beides">
+              Beides
+            </label>
+          </div>
+        </div>
+        <div class="fg full">
+          <label for="nachricht">Nachricht</label>
+          <textarea id="nachricht" name="nachricht" placeholder="Ihre Fragen oder Anmerkungen …"></textarea>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <p class="form-note">
+          Mit der Absendung stimmen Sie der Verarbeitung Ihrer Daten gemäß unserer
+          <a href="datenschutz.html">Datenschutzerklärung</a> zu.
+        </p>
+        <button type="submit" class="btn-submit">Anfrage senden</button>
+      </div>
+    </form>
+
+    <div class="form-success" id="form-success">
+      <div class="success-icon">✓</div>
+      <h3>Vielen Dank für Ihre Anfrage</h3>
+      <p>Wir melden uns innerhalb von 24 Stunden persönlich bei Ihnen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <span class="footer-brand">Quartier am Yachthafen · Neustadt in Holstein</span>
+  <nav class="footer-nav">
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+  <span class="footer-copy">© 2025 CH2 AG · Alle Rechte vorbehalten</span>
+</footer>
+
+<script src="section-loader.js"></script>
+<script>
+  /* Hamburger toggle */
+  document.getElementById('burger').addEventListener('click', function () {
+    var nav = document.getElementById('mobile-nav');
+    nav.classList.toggle('open');
+  });
+
+  /* Schließe mobile nav bei Klick auf Link */
+  document.querySelectorAll('.mobile-nav a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.getElementById('mobile-nav').classList.remove('open');
+    });
+  });
+
+  /* Kontaktformular — Formspree via fetch */
+  document.getElementById('contact-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = this;
+    var action = form.getAttribute('action');
+
+    if (action.includes('HIER_ID_EINTRAGEN')) {
+      alert('Bitte zuerst Formspree einrichten:\n1. formspree.io → New Form\n2. Form-ID in index.html eintragen');
+      return;
+    }
+
+    var btn = form.querySelector('.btn-submit');
+    btn.textContent = 'Wird gesendet …';
+    btn.disabled = true;
+
+    fetch(action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function (r) {
+      if (r.ok) {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      } else {
+        btn.textContent = 'Fehler — bitte erneut versuchen';
+        btn.disabled = false;
+      }
+    }).catch(function () {
+      btn.textContent = 'Fehler — bitte erneut versuchen';
+      btn.disabled = false;
+    });
+  });
+</script>
+</body>
+</html>
